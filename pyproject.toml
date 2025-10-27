@@ -1,0 +1,19 @@
+[project]
+name = "cmuggui"
+version = "0.0.1"
+authors = [
+  { name="5Stygian", email="rlcrafistohard@gmail.com" },
+]
+description = "A library for making GUIs in CMU Graphics"
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = "CC0-1.0"
+license-files = ["LICEN[CS]E*"]
+
+[project.urls]
+Homepage = "https://github.com/pypa/sampleproject"
+Issues = "https://github.com/pypa/sampleproject/issues"
