@@ -161,6 +161,11 @@ class Colors:
         yellow               = rgb(255, 255, 0)
         yellowgreen          = rgb(154, 205, 50)
 
+class Functions:
+    @staticmethod
+    def QUIT():
+        raise KeyboardInterrupt
+
 class Menu(Rect):
     def __init__(self, *args, fill=Colors.gray, border=Colors.darkerGray, **kwargs):
         super().__init__(*args, **kwargs, fill=fill, border=border)
@@ -315,13 +320,10 @@ class Menu(Rect):
         def getData(self) -> Dict:
             return self.data
         
-        def addEventListener(self, event, x, y) -> None:
+        def addEventListener(self, x, y, event="mouseDown") -> None:
             if self.buttonGroup.contains(x, y):
                 if event == "mouseDown":
                     self.onclick()
-                if event == "QUIT":
-                    raise KeyboardInterrupt # quit() and exit() are too slow
-    
 
 # tests
 if __name__ == "__main__":
@@ -369,15 +371,15 @@ if __name__ == "__main__":
 
     exitButton = Menu.Button(
         testMenu,
-        None,
+        Functions.QUIT,
         -20, 365,
         40, 20,
         textValue="QUIT"
     )
 
     def onMousePress(x, y):
-        testButton.addEventListener("mouseDown", x, y)
-        testButton2.addEventListener("mouseDown", x ,y)
-        exitButton.addEventListener("QUIT", x ,y)
+        testButton.addEventListener(x, y)
+        testButton2.addEventListener(x, y)
+        exitButton.addEventListener(x, y)
 
     cmu_graphics.run() # type: ignore
