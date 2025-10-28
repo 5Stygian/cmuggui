@@ -191,13 +191,39 @@ class Functions:
 
 
 class Menu(Rect):
-    def __init__(self, *args, fill=Colors.gray, border=Colors.darkerGray, **kwargs):
+    def __init__(self, *args, fill=Colors.gray, border=Colors.darkerGray, debug: bool = False, **kwargs):
         super().__init__(*args, **kwargs, fill=fill, border=border)
         self.fill   = fill
         self.border = border
 
+        self.debug = debug
+        if self.debug:
+            self.debugLineNS = Line(
+                self.centerX, self.top,
+                self.centerX, self.bottom,
+                fill=Colors.CSS3.red,
+                lineWidth=5,
+                opacity=0.7
+            )
+            self.debugLineEW = Line(
+                self.left, self.centerY,
+                self.right, self.centerY,
+                fill=Colors.CSS3.blue,
+                lineWidth=5,
+                opacity=0.7
+            )
+            self.debugBorder = Rect(
+                self.left, self.top,
+                self.right, self.bottom,
+                fill=None,
+                border=Colors.CSS3.green,
+                borderWidth=5,
+                opacity=0.7
+            )
+        
         self.data = {
             "Class": f"{self.__class__.__name__}",
+            "Debug": self.debug,
             "Dimensions": {
                 "TopLeft": (self.left, self.top),
                 "TopRight": (self.right, self.top),
@@ -217,6 +243,7 @@ class Menu(Rect):
     def __updateData(self) -> None:
         self.data = {
             "Class": f"{self.__class__.__name__}",
+            "Debug": self.debug,
             "Dimensions": {
                 "TopLeft": (self.left, self.top),
                 "TopRight": (self.right, self.top),
