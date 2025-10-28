@@ -1,17 +1,13 @@
 from cmu_graphics import *
-from beeprint import pp
 
 from typing import Dict
-from dataclasses import dataclass
 
-@dataclass
 class Colors:
     gray       = rgb(200,200,200)
     darkgray   = rgb(175,175,175)
     darkerGray = rgb(100,100,100)
     
     # CSS 3 colors
-    @dataclass
     class CSS3:
         aliceblue            = rgb(240, 248, 255)
         antiquewhite         = rgb(250, 235, 215)
@@ -349,7 +345,7 @@ if __name__ == "__main__":
         borderWidth=1,
         textValue="Test"
     )
-    #print(testButton.getData())
+    print(testButton.getData())
 
     def testFoo2():
         print("im a cooler button")
@@ -367,7 +363,7 @@ if __name__ == "__main__":
         textSize=15,
         textIsBold=True
     )
-    #print(testButton2.getData())
+    print(testButton2.getData())
 
     exitButton = Menu.Button(
         testMenu,
