@@ -161,20 +161,20 @@ class Colors:
 
 class Functions:
     @staticmethod
-    def QUIT(exitCode = 0):
+    def QUIT(exitCode = 0) -> None:
         sys.exit(exitCode)
 
     @staticmethod
-    def toggleVisibility(object):
+    def toggleVisibility(object) -> None:
         object.visible = not(object.visible)
 
     @staticmethod
-    def translate(object, translateX, translateY):
+    def translate(object, translateX: int|float, translateY: int|float) -> None:
         object.centerX += translateX
         object.centerY += translateY
     
     @staticmethod
-    def rotate(object, degrees, origin="object_Center", originX=None, originY=None):
+    def rotate(object, degrees: int|float, origin: str="object_Center", originX: int|float|None=None, originY: int|float|None=None) -> None:
     match origin:
         case "object_Center":
             object.rotate(degrees, object.centerX, object.centerY)
