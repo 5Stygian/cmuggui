@@ -181,7 +181,7 @@ class Functions:
             object.rotate(degrees, object.left, object.bottom)
         case "object_BottomRight":
             object.rotate(degrees, object.right, object.bottom)
-        case "customOrigin":
+        case "origin_Custom":
             object.rotate(degrees, originX, originY)
 
 
