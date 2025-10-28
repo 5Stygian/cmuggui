@@ -1,6 +1,6 @@
 from cmu_graphics import *
 
-from ..src.cmuggui.cmuggui import Functions.translate
+from ..src.cmuggui.cmuggui import Functions
 
 testRect = Rect(
     100,100,

@@ -1,6 +1,6 @@
 from cmu_graphics import *
 
-from ..src.cmuggui.cmuggui import Functions.translate, Functions.rotate
+from ..src.cmuggui.cmuggui import Functions
 
 testRect = Rect(
     100,100,
@@ -19,4 +19,4 @@ testGroup = Group( testRect, testLabel )
 Functions.rotate(testGroup, 70, origin="object_TopRight")
 Functions.translate(testGroup, 20, 40)
 
-cmu_graphics.run()
+cmu_graphics.run() 

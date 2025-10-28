@@ -1,6 +1,6 @@
 from cmu_graphics import *
 
-from ..src.cmuggui.cmuggui import Functions.rotate
+from ..src.cmuggui.cmuggui import Functions
 
 testRect = Rect(
     100,100,
