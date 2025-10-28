@@ -162,6 +162,27 @@ class Functions:
     def QUIT():
         raise KeyboardInterrupt
 
+    @staticmethod
+    def toggleVisibility(object):
+        object.visible = not(object.visible)
+
+    @staticmethod
+    def rotate(object, degrees, origin="object_Center", originX=None, originY=None):
+    match origin:
+        case "object_Center":
+            object.rotate(degrees, object.centerX, object.centerY)
+        case "object_TopLeft":
+            object.rotate(degrees, object.left, object.top)
+        case "object_TopRight":
+            object.rotate(degrees, object.right, object.top)
+        case "object_BottomLeft":
+            object.rotate(degrees, object.left, object.bottom)
+        case "object_BottomRight":
+            object.rotate(degrees, object.right, object.bottom)
+        case "customOrigin":
+            object.rotate(degrees, originX, originY)
+
+
 class Menu(Rect):
     def __init__(self, *args, fill=Colors.gray, border=Colors.darkerGray, **kwargs):
         super().__init__(*args, **kwargs, fill=fill, border=border)
