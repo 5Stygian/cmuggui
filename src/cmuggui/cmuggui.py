@@ -286,14 +286,14 @@ class Menu(Rect):
                         "Width": self.boundingBox.width,
                         "Height": self.boundingBox.height
                     },
-                    "BackgroundFill": self.boundingBox.fill,
-                    "BorderFill": self.boundingBox.border,
+                    "BackgroundFill (R, G, B)": (self.boundingBox.fill.red, self.boundingBox.fill.green, self.boundingBox.fill.blue),
+                    "BorderFill (R, G, B)": (self.boundingBox.border.red, self.boundingBox.border.green, self.boundingBox.border.blue),
                     "BorderWidth": self.boundingBox.borderWidth,
                     "IsVisible": self.boundingBox.visible
                 },
                 "Text": {
                     "Position": (self.text.centerX, self.text.centerY),
-                    "Color": self.text.fill,
+                    "Fill (R, G, B)": (self.text.fill.red, self.text.fill.green, self.text.fill.blue),
                     "Font": self.text.font,
                     "Size": self.text.size,
                     "IsBold": self.text.bold,
@@ -318,14 +318,14 @@ class Menu(Rect):
                         "Width": self.boundingBox.width,
                         "Height": self.boundingBox.height
                     },
-                    "BackgroundFill": self.boundingBox.fill,
-                    "BorderFill": self.boundingBox.border,
+                    "BackgroundFill (R, G, B)": (self.boundingBox.fill.red, self.boundingBox.fill.green, self.boundingBox.fill.blue),
+                    "BorderFill (R, G, B)": (self.boundingBox.border.red, self.boundingBox.border.green, self.boundingBox.border.blue),
                     "BorderWidth": self.boundingBox.borderWidth,
                     "IsVisible": self.boundingBox.visible
                 },
                 "Text": {
                     "Position": (self.text.centerX, self.text.centerY),
-                    "Color": self.text.fill,
+                    "Fill (R, G, B)": (self.text.fill.red, self.text.fill.green, self.text.fill.blue),
                     "Font": self.text.font,
                     "Size": self.text.size,
                     "IsBold": self.text.bold,
