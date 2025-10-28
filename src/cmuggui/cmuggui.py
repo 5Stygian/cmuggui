@@ -2,6 +2,8 @@ from cmu_graphics import *
 
 from typing import Dict
 
+import sys
+
 class Colors:
     gray       = rgb(200,200,200)
     darkgray   = rgb(175,175,175)
@@ -160,7 +162,7 @@ class Colors:
 class Functions:
     @staticmethod
     def QUIT():
-        raise KeyboardInterrupt
+        sys.exit(0)
 
     @staticmethod
     def toggleVisibility(object):
