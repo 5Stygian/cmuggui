@@ -16,6 +16,6 @@ testLabel = Label(
 
 testGroup = Group( testRect, testLabel )
 
-Functions.rotate(testGroup, )
+Functions.rotate(testGroup, 45, origin="origin_Custom", originX=267, originY=182)
 
 cmu_graphics.run()
