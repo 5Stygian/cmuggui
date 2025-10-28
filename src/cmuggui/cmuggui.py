@@ -203,14 +203,14 @@ class Menu(Rect):
                 self.centerX, self.bottom,
                 fill=Colors.CSS3.red,
                 lineWidth=5,
-                opacity=0.7
+                opacity=55
             )
             self.debugLineEW = Line(
                 self.left, self.centerY,
                 self.right, self.centerY,
                 fill=Colors.CSS3.blue,
                 lineWidth=5,
-                opacity=0.7
+                opacity=55
             )
             self.debugBorder = Rect(
                 self.left, self.top,
@@ -218,7 +218,7 @@ class Menu(Rect):
                 fill=None,
                 border=Colors.CSS3.green,
                 borderWidth=5,
-                opacity=0.7
+                opacity=55
             )
         
         self.data = {
