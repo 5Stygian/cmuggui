@@ -2,8 +2,6 @@ from cmu_graphics import *
 
 from typing import Dict
 
-import sys
-
 class Colors:
     gray       = rgb(200,200,200)
     darkgray   = rgb(175,175,175)
@@ -194,8 +192,8 @@ class Functions:
 class Menu(Rect):
     def __init__(self, *args, fill=Colors.gray, border=Colors.darkerGray, debug: bool = False, **kwargs):
         super().__init__(*args, **kwargs, fill=fill, border=border)
-        self.fill   = fill
-        self.border = border
+        self.fill       = fill
+        self.border     = border
 
         self.debug = debug
         if self.debug:
@@ -233,8 +231,8 @@ class Menu(Rect):
                 "Width": self.width,
                 "Height": self.height,
             },
-            "BackgroundFill (R, G, B)": (self.fill.red, self.fill.green, self.fill.blue),
-            "BorderFill (R, G, B)": (self.border.red, self.border.green, self.border.blue),
+            "BackgroundFill": (self.fill.red, self.fill.green, self.fill.blue),
+            "BorderFill": (self.border.red, self.border.green, self.border.blue),
             "BorderWidth": self.borderWidth,
             "IsVisible": self.visible
         }
@@ -253,8 +251,8 @@ class Menu(Rect):
                 "Width": self.width,
                 "Height": self.height,
             },
-            "BackgroundFill (R, G, B)": (self.fill.red, self.fill.green, self.fill.blue),
-            "BorderFill (R, G, B)": (self.border.red, self.border.green, self.border.blue),
+            "BackgroundFill": (self.fill.red, self.fill.green, self.fill.blue),
+            "BorderFill": (self.border.red, self.border.green, self.border.blue),
             "BorderWidth": self.borderWidth,
             "IsVisible": self.visible
         }
@@ -350,14 +348,14 @@ class Menu(Rect):
                         "Width": self.boundingBox.width,
                         "Height": self.boundingBox.height
                     },
-                    "BackgroundFill (R, G, B)": (self.boundingBox.fill),
-                    "BorderFill (R, G, B)": (self.boundingBox.border),
+                    "BackgroundFill": (self.boundingBox.fill),
+                    "BorderFill": (self.boundingBox.border),
                     "BorderWidth": self.boundingBox.borderWidth,
                     "IsVisible": self.boundingBox.visible
                 },
                 "Text": {
                     "Position": (self.text.centerX, self.text.centerY),
-                    "Fill (R, G, B)": (self.text.fill),
+                    "Fill": (self.text.fill),
                     "Font": self.text.font,
                     "Size": self.text.size,
                     "IsBold": self.text.bold,
@@ -381,14 +379,14 @@ class Menu(Rect):
                         "Width": self.boundingBox.width,
                         "Height": self.boundingBox.height
                     },
-                    "BackgroundFill (R, G, B)": (self.boundingBox.fill),
-                    "BorderFill (R, G, B)": (self.boundingBox.border),
+                    "BackgroundFill": (self.boundingBox.fill),
+                    "BorderFill": (self.boundingBox.border),
                     "BorderWidth": self.boundingBox.borderWidth,
                     "IsVisible": self.boundingBox.visible
                 },
                 "Text": {
                     "Position": (self.text.centerX, self.text.centerY),
-                    "Fill (R, G, B)": (self.text.red, self.text.green, self.text.blue),
+                    "Fill": (self.text.red, self.text.green, self.text.blue),
                     "Font": self.text.font,
                     "Size": self.text.size,
                     "IsBold": self.text.bold,
@@ -454,8 +452,7 @@ if __name__ == "__main__":
         Functions.QUIT,
         -20, 365,
         40, 20,
-        textValue="QUIT",
-        debug=True
+        textValue="QUIT"
     )
 
     def onMousePress(x, y):
