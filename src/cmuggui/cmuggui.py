@@ -161,8 +161,8 @@ class Colors:
 
 class Functions:
     @staticmethod
-    def QUIT(exitCode = 0) -> None:
-        sys.exit(exitCode)
+    def QUIT() -> None:
+        raise KeyboardInterrupt
 
     @staticmethod
     def toggleVisibility(object) -> None:
@@ -175,19 +175,20 @@ class Functions:
     
     @staticmethod
     def rotate(object, degrees: int|float, origin: str="object_Center", originX: int|float|None=None, originY: int|float|None=None) -> None:
-    match origin:
-        case "object_Center":
-            object.rotate(degrees, object.centerX, object.centerY)
-        case "object_TopLeft":
-            object.rotate(degrees, object.left, object.top)
-        case "object_TopRight":
-            object.rotate(degrees, object.right, object.top)
-        case "object_BottomLeft":
-            object.rotate(degrees, object.left, object.bottom)
-        case "object_BottomRight":
-            object.rotate(degrees, object.right, object.bottom)
-        case "origin_Custom":
-            object.rotate(degrees, originX, originY)
+        match origin:
+            case "object_Center":
+                object.rotate(degrees, object.centerX, object.centerY)
+            case "object_TopLeft":
+                object.rotate(degrees, object.left, object.top)
+            case "object_TopRight":
+                object.rotate(degrees, object.right, object.top)
+            case "object_BottomLeft":
+                object.rotate(degrees, object.left, object.bottom)
+            case "object_BottomRight":
+                object.rotate(degrees, object.right, object.bottom)
+            case "origin_Custom":
+                object.rotate(degrees, originX, originY)
+
 
 
 class Menu(Rect):
@@ -214,9 +215,9 @@ class Menu(Rect):
             )
             self.debugBorder = Rect(
                 self.left, self.top,
-                self.right, self.bottom,
+                self.width, self.height,
                 fill=None,
-                border=Colors.CSS3.green,
+                border=Colors.CSS3.yellow,
                 borderWidth=5,
                 opacity=55
             )
@@ -267,9 +268,11 @@ class Menu(Rect):
                      horizontalAlign: int|float, verticalAlign: int|float,
                      width: int|float, height: int|float, fill = Colors.darkgray, borderFill = Colors.darkerGray, borderWidth: int|float = 2,
                      textValue: str = "", textFill = "black", textFont: str = "arial", textSize: int|float = 12,
-                     textIsBold: bool = False, textIsItalic: bool = False, textIsVisible: bool = True):
+                     textIsBold: bool = False, textIsItalic: bool = False, textIsVisible: bool = True,
+                     debug: bool = False):
             self.parent = parent
             self.onclick = onclick
+            self.debug = debug
 
             self.horizontalAlign = horizontalAlign
             self.verticalAlign   = verticalAlign
@@ -307,9 +310,36 @@ class Menu(Rect):
                 visible=self.textIsVisible
             )
             
+            self.buttonGroup = Group( self.boundingBox, self.text )
+
+            if self.debug:
+                self.debugLineNS = Line(
+                    self.boundingBox.centerX, self.boundingBox.top,
+                    self.boundingBox.centerX, self.boundingBox.bottom,
+                    fill=Colors.CSS3.red,
+                    lineWidth=5,
+                    opacity=55
+                )
+                self.debugLineEW = Line(
+                    self.boundingBox.left, self.boundingBox.centerY,
+                    self.boundingBox.right, self.boundingBox.centerY,
+                    fill=Colors.CSS3.blue,
+                    lineWidth=5,
+                    opacity=55
+                )
+                self.debugBorder = Rect(
+                    self.boundingBox.left, self.boundingBox.top,
+                    self.boundingBox.width, self.boundingBox.height,
+                    fill=None,
+                    border=Colors.CSS3.yellow,
+                    borderWidth=5,
+                    opacity=55
+                )
+
             self.data = {
                 "Class": f"{self.__class__.__name__}",
                 "Parent": f"{self.parent}",
+                "Debug": self.debug,
                 "OnClickFunction": f"{self.onclick}",
                 "BoundingBox": {
                     "Dimensions": {
@@ -320,14 +350,14 @@ class Menu(Rect):
                         "Width": self.boundingBox.width,
                         "Height": self.boundingBox.height
                     },
-                    "BackgroundFill (R, G, B)": (self.boundingBox.fill.red, self.boundingBox.fill.green, self.boundingBox.fill.blue),
-                    "BorderFill (R, G, B)": (self.boundingBox.border.red, self.boundingBox.border.green, self.boundingBox.border.blue),
+                    "BackgroundFill (R, G, B)": (self.boundingBox.fill),
+                    "BorderFill (R, G, B)": (self.boundingBox.border),
                     "BorderWidth": self.boundingBox.borderWidth,
                     "IsVisible": self.boundingBox.visible
                 },
                 "Text": {
                     "Position": (self.text.centerX, self.text.centerY),
-                    "Fill (R, G, B)": (self.text.fill.red, self.text.fill.green, self.text.fill.blue),
+                    "Fill (R, G, B)": (self.text.fill),
                     "Font": self.text.font,
                     "Size": self.text.size,
                     "IsBold": self.text.bold,
@@ -335,13 +365,12 @@ class Menu(Rect):
                     "IsVisible": self.text.visible
                 }
             }
-            
-            self.buttonGroup = Group( self.boundingBox, self.text )
         
         def __updateData(self) -> None:
             self.data = {
                 "Class": f"{self.__class__.__name__}",
                 "Parent": f"{self.parent}",
+                "Debug": self.debug,
                 "OnClickFunction": f"{self.onclick}",
                 "BoundingBox": {
                     "Dimensions": {
@@ -352,14 +381,14 @@ class Menu(Rect):
                         "Width": self.boundingBox.width,
                         "Height": self.boundingBox.height
                     },
-                    "BackgroundFill (R, G, B)": (self.boundingBox.fill.red, self.boundingBox.fill.green, self.boundingBox.fill.blue),
-                    "BorderFill (R, G, B)": (self.boundingBox.border.red, self.boundingBox.border.green, self.boundingBox.border.blue),
+                    "BackgroundFill (R, G, B)": (self.boundingBox.fill),
+                    "BorderFill (R, G, B)": (self.boundingBox.border),
                     "BorderWidth": self.boundingBox.borderWidth,
                     "IsVisible": self.boundingBox.visible
                 },
                 "Text": {
                     "Position": (self.text.centerX, self.text.centerY),
-                    "Fill (R, G, B)": (self.text.fill.red, self.text.fill.green, self.text.fill.blue),
+                    "Fill (R, G, B)": (self.text.red, self.text.green, self.text.blue),
                     "Font": self.text.font,
                     "Size": self.text.size,
                     "IsBold": self.text.bold,
@@ -385,7 +414,7 @@ if __name__ == "__main__":
         border=Colors.darkerGray,
         borderWidth=5
     )
-    pp(testMenu.getData(), indent=4, sort_keys=False)
+    print(testMenu.getData())
 
     def testFoo():
         print("im a boring button")
@@ -425,7 +454,8 @@ if __name__ == "__main__":
         Functions.QUIT,
         -20, 365,
         40, 20,
-        textValue="QUIT"
+        textValue="QUIT",
+        debug=True
     )
 
     def onMousePress(x, y):
