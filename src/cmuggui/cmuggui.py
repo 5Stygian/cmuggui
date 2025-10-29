@@ -160,6 +160,7 @@ class Colors:
 class Functions:
     @staticmethod
     def QUIT() -> None:
+        # im sorry
         raise KeyboardInterrupt
 
     @staticmethod
