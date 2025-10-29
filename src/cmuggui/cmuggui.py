@@ -271,6 +271,7 @@ class Menu(Rect):
                      debug: bool = False):
             self.parent = parent
             self.onclick = onclick
+            self.hasEventListener = False
             self.debug = debug
 
             self.horizontalAlign = horizontalAlign
@@ -340,6 +341,7 @@ class Menu(Rect):
                 "Parent": f"{self.parent}",
                 "Debug": self.debug,
                 "OnClickFunction": f"{self.onclick}",
+                "HasEventListener": self.hasEventListener,
                 "BoundingBox": {
                     "Dimensions": {
                         "TopLeft": (self.boundingBox.left, self.boundingBox.top),
@@ -371,6 +373,7 @@ class Menu(Rect):
                 "Parent": f"{self.parent}",
                 "Debug": self.debug,
                 "OnClickFunction": f"{self.onclick}",
+                "HasEventListener": self.hasEventListener,
                 "BoundingBox": {
                     "Dimensions": {
                         "TopLeft": (self.boundingBox.left, self.boundingBox.top),
@@ -400,6 +403,8 @@ class Menu(Rect):
             return self.data
         
         def addEventListener(self, x, y, event="mouseDown") -> None:
+            self.hasEventHandler = True
+            self.__updateData()
             if self.buttonGroup.contains(x, y):
                 if event == "mouseDown":
                     self.onclick()
