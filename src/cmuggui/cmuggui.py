@@ -390,7 +390,7 @@ class Menu(Rect):
                 },
                 "Text": {
                     "Position": (self.text.centerX, self.text.centerY),
-                    "Fill": (self.text.red, self.text.green, self.text.blue),
+                    "Fill": self.text.fill,
                     "Font": self.text.font,
                     "Size": self.text.size,
                     "IsBold": self.text.bold,
