@@ -447,6 +447,15 @@ if __name__ == "__main__":
         textIsBold=True
     )
     print(testButton2.getData())
+    
+    def buttonPresetFoo():
+        print("unpacking operator is my favorite python featrue")
+
+    def buttonPreset(presetFoo):
+        presetFoo=presetFoo
+        return [testMenu, presetFoo, -40, 100, 70, 50]
+
+    testPresetButton = Menu.Button( *buttonPreset(buttonPresetFoo), textValue="preset", textSize=22 )
 
     exitButton = Menu.Button(
         testMenu,
@@ -460,5 +469,6 @@ if __name__ == "__main__":
         testButton.addEventListener(x, y)
         testButton2.addEventListener(x, y)
         exitButton.addEventListener(x, y)
+        testPresetButton.addEventListener(x, y)
 
     cmu_graphics.run() # type: ignore
