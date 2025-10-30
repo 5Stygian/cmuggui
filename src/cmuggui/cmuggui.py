@@ -157,6 +157,11 @@ class Colors:
         yellow               = rgb(255, 255, 0)
         yellowgreen          = rgb(154, 205, 50)
 
+class DEBUG:
+    NORTH_SOUTH = Colors.CSS3.red
+    EAST_WEST   = Colors.CSS3.blue
+    BORDER      = Colors.CSS3.yellow
+
 class Functions:
     @staticmethod
     def QUIT() -> None:
@@ -201,14 +206,14 @@ class Menu(Rect):
             self.debugLineNS = Line(
                 self.centerX, self.top,
                 self.centerX, self.bottom,
-                fill=Colors.CSS3.red,
+                fill=Colors.DEBUG.NORTH_SOUTH,
                 lineWidth=5,
                 opacity=55
             )
             self.debugLineEW = Line(
                 self.left, self.centerY,
                 self.right, self.centerY,
-                fill=Colors.CSS3.blue,
+                fill=Colors.DEBUG.EAST_WEST,
                 lineWidth=5,
                 opacity=55
             )
@@ -216,7 +221,7 @@ class Menu(Rect):
                 self.left, self.top,
                 self.width, self.height,
                 fill=None,
-                border=Colors.CSS3.yellow,
+                border=Colors.DEBUG.BORDER,
                 borderWidth=5,
                 opacity=55
             )
@@ -320,14 +325,14 @@ class Menu(Rect):
                 self.debugLineNS = Line(
                     self.boundingBox.centerX, self.boundingBox.top,
                     self.boundingBox.centerX, self.boundingBox.bottom,
-                    fill=Colors.CSS3.red,
+                    fill=Colors.DEBUG.NORTH_SOUTH,
                     lineWidth=5,
                     opacity=55
                 )
                 self.debugLineEW = Line(
                     self.boundingBox.left, self.boundingBox.centerY,
                     self.boundingBox.right, self.boundingBox.centerY,
-                    fill=Colors.CSS3.blue,
+                    fill=Colors.DEBUG.EAST_WEST,
                     lineWidth=5,
                     opacity=55
                 )
@@ -335,7 +340,7 @@ class Menu(Rect):
                     self.boundingBox.left, self.boundingBox.top,
                     self.boundingBox.width, self.boundingBox.height,
                     fill=None,
-                    border=Colors.CSS3.yellow,
+                    border=Colors.DEBUG.BORDER,
                     borderWidth=5,
                     opacity=55
                 )
