@@ -157,7 +157,6 @@ class Colors:
         yellow               = rgb(255, 255, 0)
         yellowgreen          = rgb(154, 205, 50)
 
-
 # colors used when debug=True
 class DEBUG:
     NORTH_SOUTH = rgb(255, 0, 0)
