@@ -1,7 +1,6 @@
 [build-system]
 requires = [
-  "setuptools >= 77.0.3",
-  "cmu-graphics >= 1.1.43"
+  "setuptools >= 77.0.3"
 ]
 build-backend = "setuptools.build_meta"
 
