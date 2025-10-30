@@ -242,8 +242,9 @@ class Menu(Rect):
                 fill=None,
                 border=Colors.DEBUG.BORDER,
                 borderWidth=self.widthFormula,
-                opacity=55
+                #opacity=55
             )
+
         
         self.data = {
             "Class": f"{self.__class__.__name__}",
@@ -379,8 +380,9 @@ class Menu(Rect):
                     fill=None,
                     border=Colors.DEBUG.BORDER,
                     borderWidth=self.widthFormula,
-                    opacity=55
+                    #opacity=55
                 )
+                self.boundingBox.opacity=0
 
             self.data = {
                 "Class": f"{self.__class__.__name__}",
@@ -462,8 +464,7 @@ if __name__ == "__main__":
         200, 400,
         fill=Colors.CSS3.aliceblue,
         border=Colors.darkerGray,
-        borderWidth=5,
-        debug=True
+        borderWidth=5
     )
     print(testMenu.getData())
 
@@ -507,7 +508,7 @@ if __name__ == "__main__":
         presetFoo=presetFoo
         return [testMenu, presetFoo, -40, 100, 70, 50]
 
-    testPresetButton = Menu.Button( *buttonPreset(buttonPresetFoo), textValue="preset", textSize=22, debug=True )
+    testPresetButton = Menu.Button( *buttonPreset(buttonPresetFoo), textValue="preset", textSize=22 )
 
     exitButton = Menu.Button(
         testMenu,
