@@ -158,9 +158,9 @@ class Colors:
         yellowgreen          = rgb(154, 205, 50)
 
 class DEBUG:
-    NORTH_SOUTH = Colors.CSS3.red
-    EAST_WEST   = Colors.CSS3.blue
-    BORDER      = Colors.CSS3.yellow
+    NORTH_SOUTH = rgb(255, 0, 0)
+    EAST_WEST   = rgb(0, 0, 255)
+    BORDER      = rgb(255, 255, 0)
 
 class Functions:
     @staticmethod
