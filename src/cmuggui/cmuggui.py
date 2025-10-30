@@ -1,6 +1,7 @@
 from cmu_graphics import *
 
 from typing import Dict
+import json
 
 class Colors:
     gray       = rgb(200,200,200)
@@ -201,8 +202,8 @@ class Functions:
 class Menu(Rect):
     def __init__(self, *args, fill=Colors.gray, border=Colors.darkerGray, debug: bool = False, **kwargs):
         super().__init__(*args, **kwargs, fill=fill, border=border)
-        self.fill       = fill
-        self.border     = border
+        self.fill   = fill
+        self.border = border
 
         self.debug = debug
         if self.debug:
@@ -237,7 +238,7 @@ class Menu(Rect):
             )
             self.dbBorder = Rect(
                 self.left, self.top,
-                self.right, self.bottom,
+                self.width, self.height,
                 fill=None,
                 border=Colors.DEBUG.BORDER,
                 borderWidth=self.widthFormula,
@@ -254,8 +255,9 @@ class Menu(Rect):
                 "BottomRight": (self.right, self.bottom),
                 "Width": self.width,
                 "Height": self.height,
+                "Center": (self.centerX, self.centerY)
             },
-            "BackgroundFill": (self.fill.red, self.fill.green, self.fill.blue),
+            "BackgroundFill": f"{(self.fill)}",
             "BorderFill": (self.border.red, self.border.green, self.border.blue),
             "BorderWidth": self.borderWidth,
             "IsVisible": self.visible
@@ -274,6 +276,7 @@ class Menu(Rect):
                 "BottomRight": (self.right, self.bottom),
                 "Width": self.width,
                 "Height": self.height,
+                "Center": (self.centerX, self.centerY)
             },
             "BackgroundFill": (self.fill.red, self.fill.green, self.fill.blue),
             "BorderFill": (self.border.red, self.border.green, self.border.blue),
@@ -340,43 +343,44 @@ class Menu(Rect):
             self.buttonGroup = Group( self.boundingBox, self.text )
 
             if self.debug:
-                self.widthFormula = 20*(self.width/self.height)
-            self.dbNWSE = Line(
-                self.left, self.top,
-                self.right, self.bottom,
-                fill=Colors.DEBUG.NORTHWEST_SOUTHEAST,
-                lineWidth=self.widthFormula,
-                opacity=55
-            )
-            self.dbNESW = Line(
-                self.right, self.top,
-                self.left, self.bottom,
-                fill=Colors.DEBUG.NORTHEAST_SOUTHWEST,
-                lineWidth=self.widthFormula,
-                opacity=55
-            )
-            self.dbNS = Line(
-                self.centerX, self.top,
-                self.centerX, self.bottom,
-                fill=Colors.DEBUG.NORTH_SOUTH,
-                lineWidth=self.widthFormula,
-                opacity=55
-            )
-            self.dbEW = Line(
-                self.left, self.centerY,
-                self.right, self.centerY,
-                fill=Colors.DEBUG.EAST_WEST,
-                lineWidth=self.widthFormula,
-                opacity=55
-            )
-            self.dbBorder = Rect(
-                self.left, self.top,
-                self.right, self.bottom,
-                fill=None,
-                border=Colors.DEBUG.BORDER,
-                borderWidth=self.widthFormula,
-                opacity=55
-            )
+                #self.widthFormula = 20*(self.boundingBox.width/self.boundingBox.height)
+                self.widthFormula = 5
+                self.dbNWSE = Line(
+                    self.boundingBox.left, self.boundingBox.top,
+                    self.boundingBox.right, self.boundingBox.bottom,
+                    fill=Colors.DEBUG.NORTHWEST_SOUTHEAST,
+                    lineWidth=self.widthFormula,
+                    opacity=55
+                )
+                self.dbNESW = Line(
+                    self.boundingBox.right, self.boundingBox.top,
+                    self.boundingBox.left, self.boundingBox.bottom,
+                    fill=Colors.DEBUG.NORTHEAST_SOUTHWEST,
+                    lineWidth=self.widthFormula,
+                    opacity=55
+                )
+                self.dbNS = Line(
+                    self.boundingBox.centerX, self.boundingBox.top,
+                    self.boundingBox.centerX, self.boundingBox.bottom,
+                    fill=Colors.DEBUG.NORTH_SOUTH,
+                    lineWidth=self.widthFormula,
+                    opacity=55
+                )
+                self.dbEW = Line(
+                    self.boundingBox.left, self.boundingBox.centerY,
+                    self.boundingBox.right, self.boundingBox.centerY,
+                    fill=Colors.DEBUG.EAST_WEST,
+                    lineWidth=self.widthFormula,
+                    opacity=55
+                )
+                self.dbBorder = Rect(
+                    self.boundingBox.left, self.boundingBox.top,
+                    self.boundingBox.width, self.boundingBox.height,
+                    fill=None,
+                    border=Colors.DEBUG.BORDER,
+                    borderWidth=self.widthFormula,
+                    opacity=55
+                )
 
             self.data = {
                 "Class": f"{self.__class__.__name__}",
@@ -391,7 +395,8 @@ class Menu(Rect):
                         "BottomLeft": (self.boundingBox.left, self.boundingBox.bottom),
                         "BottomRight": (self.boundingBox.right, self.boundingBox.bottom),
                         "Width": self.boundingBox.width,
-                        "Height": self.boundingBox.height
+                        "Height": self.boundingBox.height,
+                        "Center": (self.boundingBox.centerX, self.boundingBox.centerY)
                     },
                     "BackgroundFill": (self.boundingBox.fill),
                     "BorderFill": (self.boundingBox.border),
@@ -423,7 +428,8 @@ class Menu(Rect):
                         "BottomLeft": (self.boundingBox.left, self.boundingBox.bottom),
                         "BottomRight": (self.boundingBox.right, self.boundingBox.bottom),
                         "Width": self.boundingBox.width,
-                        "Height": self.boundingBox.height
+                        "Height": self.boundingBox.height,
+                        "Center": (self.boundingBox.centerX, self.boundingBox.centerY)
                     },
                     "BackgroundFill": (self.boundingBox.fill),
                     "BorderFill": (self.boundingBox.border),
@@ -456,7 +462,8 @@ if __name__ == "__main__":
         200, 400,
         fill=Colors.CSS3.aliceblue,
         border=Colors.darkerGray,
-        borderWidth=5
+        borderWidth=5,
+        debug=True
     )
     print(testMenu.getData())
 
@@ -500,7 +507,7 @@ if __name__ == "__main__":
         presetFoo=presetFoo
         return [testMenu, presetFoo, -40, 100, 70, 50]
 
-    testPresetButton = Menu.Button( *buttonPreset(buttonPresetFoo), textValue="preset", textSize=22 )
+    testPresetButton = Menu.Button( *buttonPreset(buttonPresetFoo), textValue="preset", textSize=22, debug=True )
 
     exitButton = Menu.Button(
         testMenu,
