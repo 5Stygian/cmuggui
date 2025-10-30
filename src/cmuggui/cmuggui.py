@@ -271,8 +271,12 @@ class Menu(Rect):
                      debug: bool = False):
             self.parent = parent
             self.onclick = onclick
-            self.hasEventListener = False
             self.debug = debug
+            self.hasEventListener = False
+            if onclick is not None:
+                self.hasEventListener = True
+            if self.hasEventListener == False:
+                print(f"Button with textValue=\"{self.textValue}\" has no function bound")
 
             self.horizontalAlign = horizontalAlign
             self.verticalAlign   = verticalAlign
@@ -403,8 +407,6 @@ class Menu(Rect):
             return self.data
         
         def addEventListener(self, x, y, event="mouseDown") -> None:
-            self.hasEventHandler = True
-            self.__updateData()
             if self.buttonGroup.contains(x, y):
                 if event == "mouseDown":
                     self.onclick()
