@@ -1,7 +1,8 @@
 from cmu_graphics import *
 
 from typing import Dict
-import json
+
+import sys
 
 class Colors:
     gray       = rgb(200,200,200)
@@ -169,6 +170,10 @@ class Colors:
 class Functions:
     @staticmethod
     def QUIT() -> None:
+        sys.exit(0)
+
+    @staticmethod
+    def QQUIT() -> None:
         # im sorry
         raise KeyboardInterrupt
 
@@ -512,7 +517,7 @@ if __name__ == "__main__":
 
     exitButton = Menu.Button(
         testMenu,
-        Functions.QUIT,
+        Functions.QQUIT,
         -20, 365,
         40, 20,
         textValue="QUIT"
