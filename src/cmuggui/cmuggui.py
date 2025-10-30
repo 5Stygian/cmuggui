@@ -157,11 +157,13 @@ class Colors:
         yellow               = rgb(255, 255, 0)
         yellowgreen          = rgb(154, 205, 50)
 
-# colors used when debug=True
-class DEBUG:
-    NORTH_SOUTH = rgb(255, 0, 0)
-    EAST_WEST   = rgb(0, 0, 255)
-    BORDER      = rgb(255, 255, 0)
+    # colors used when debug=True
+    class DEBUG:
+        NORTHWEST_SOUTHEAST = rgb(255, 0 , 255) # CSS3: magenta
+        NORTHEAST_SOUTHWEST = rgb(255, 255, 0)  # CSS3: yellow
+        NORTH_SOUTH = rgb(255, 0, 0) # CSS3: red
+        EAST_WEST   = rgb(0, 128, 0) # CSS3: green
+        BORDER      = rgb(0, 0, 255) # CSS3: blue
 
 class Functions:
     @staticmethod
@@ -204,26 +206,41 @@ class Menu(Rect):
 
         self.debug = debug
         if self.debug:
-            self.debugLineNS = Line(
+            self.widthFormula = 20*(self.width/self.height)
+            self.dbNWSE = Line(
+                self.left, self.top,
+                self.right, self.bottom,
+                fill=Colors.DEBUG.NORTHWEST_SOUTHEAST,
+                lineWidth=self.widthFormula,
+                opacity=55
+            )
+            self.dbNESW = Line(
+                self.right, self.top,
+                self.left, self.bottom,
+                fill=Colors.DEBUG.NORTHEAST_SOUTHWEST,
+                lineWidth=self.widthFormula,
+                opacity=55
+            )
+            self.dbNS = Line(
                 self.centerX, self.top,
                 self.centerX, self.bottom,
                 fill=Colors.DEBUG.NORTH_SOUTH,
-                lineWidth=5,
+                lineWidth=self.widthFormula,
                 opacity=55
             )
-            self.debugLineEW = Line(
+            self.dbEW = Line(
                 self.left, self.centerY,
                 self.right, self.centerY,
                 fill=Colors.DEBUG.EAST_WEST,
-                lineWidth=5,
+                lineWidth=self.widthFormula,
                 opacity=55
             )
-            self.debugBorder = Rect(
+            self.dbBorder = Rect(
                 self.left, self.top,
-                self.width, self.height,
+                self.right, self.bottom,
                 fill=None,
                 border=Colors.DEBUG.BORDER,
-                borderWidth=5,
+                borderWidth=self.widthFormula,
                 opacity=55
             )
         
@@ -323,28 +340,43 @@ class Menu(Rect):
             self.buttonGroup = Group( self.boundingBox, self.text )
 
             if self.debug:
-                self.debugLineNS = Line(
-                    self.boundingBox.centerX, self.boundingBox.top,
-                    self.boundingBox.centerX, self.boundingBox.bottom,
-                    fill=Colors.DEBUG.NORTH_SOUTH,
-                    lineWidth=5,
-                    opacity=55
-                )
-                self.debugLineEW = Line(
-                    self.boundingBox.left, self.boundingBox.centerY,
-                    self.boundingBox.right, self.boundingBox.centerY,
-                    fill=Colors.DEBUG.EAST_WEST,
-                    lineWidth=5,
-                    opacity=55
-                )
-                self.debugBorder = Rect(
-                    self.boundingBox.left, self.boundingBox.top,
-                    self.boundingBox.width, self.boundingBox.height,
-                    fill=None,
-                    border=Colors.DEBUG.BORDER,
-                    borderWidth=5,
-                    opacity=55
-                )
+                self.widthFormula = 20*(self.width/self.height)
+            self.dbNWSE = Line(
+                self.left, self.top,
+                self.right, self.bottom,
+                fill=Colors.DEBUG.NORTHWEST_SOUTHEAST,
+                lineWidth=self.widthFormula,
+                opacity=55
+            )
+            self.dbNESW = Line(
+                self.right, self.top,
+                self.left, self.bottom,
+                fill=Colors.DEBUG.NORTHEAST_SOUTHWEST,
+                lineWidth=self.widthFormula,
+                opacity=55
+            )
+            self.dbNS = Line(
+                self.centerX, self.top,
+                self.centerX, self.bottom,
+                fill=Colors.DEBUG.NORTH_SOUTH,
+                lineWidth=self.widthFormula,
+                opacity=55
+            )
+            self.dbEW = Line(
+                self.left, self.centerY,
+                self.right, self.centerY,
+                fill=Colors.DEBUG.EAST_WEST,
+                lineWidth=self.widthFormula,
+                opacity=55
+            )
+            self.dbBorder = Rect(
+                self.left, self.top,
+                self.right, self.bottom,
+                fill=None,
+                border=Colors.DEBUG.BORDER,
+                borderWidth=self.widthFormula,
+                opacity=55
+            )
 
             self.data = {
                 "Class": f"{self.__class__.__name__}",
