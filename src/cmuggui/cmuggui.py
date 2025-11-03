@@ -321,7 +321,7 @@ class Menu(Rect):
             
             self.boundingBox = Rect(
                 parent.centerX+self.horizontalAlign,
-                self.verticalAlign,
+                parent.top+self.verticalAlign,
                 self.ArgWidth,self.ArgHeight,
                 fill=self.backgroundFill,
                 border=self.borderFill,
