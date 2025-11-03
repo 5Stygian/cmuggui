@@ -457,7 +457,7 @@ class Menu(Rect):
         def getData(self) -> Dict:
             return self.data
         
-        def addEventListener(self, x, y, event="mouseDown") -> None:
+        def addEventListener(self, x, y, event: str = "mouseDown") -> None:
             if self.buttonGroup.contains(x, y):
                 if event == "mouseDown":
                     self.onclick()
