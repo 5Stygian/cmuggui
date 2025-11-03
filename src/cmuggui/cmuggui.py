@@ -249,6 +249,8 @@ class Menu(Rect):
                 borderWidth=self.widthFormula,
                 #opacity=55
             )
+            self.opacity = 0
+            self.getData()
 
         
         self.data = {
@@ -387,7 +389,8 @@ class Menu(Rect):
                     borderWidth=self.widthFormula,
                     #opacity=55
                 )
-                self.boundingBox.opacity=0
+                self.boundingBox.opacity = 0
+                self.getData()
 
             self.data = {
                 "Class": f"{self.__class__.__name__}",
