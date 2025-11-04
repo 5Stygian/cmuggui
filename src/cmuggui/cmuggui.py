@@ -169,6 +169,10 @@ class Colors:
 
 class Functions:
     @staticmethod
+    def NOFUNCTION() -> None: 
+        pass
+
+    @staticmethod
     def QUIT() -> None:
         sys.exit(0)
 
