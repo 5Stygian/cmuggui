@@ -1,7 +1,8 @@
 from cmu_graphics import *
+app.hovering = 0
+
 
 from typing import Dict
-
 import sys
 
 class Colors:
@@ -205,8 +206,66 @@ class Functions:
                 object.rotate(degrees, object.right, object.bottom)
             case "origin_Custom":
                 object.rotate(degrees, originX, originY)
+    
+    @staticmethod
+    def hover(object, mode="darken", darkenModAmount=0.9, lightenModAmount=1.1) -> None:
+        if object.fill:
+            object_red   = object.fill.red
+            object_green = object.fill.green
+            object_blue  = object.fill.blue
+        
+        if object.border:
+            object_border_red   = object.border.red
+            object_border_green = object.border.green
+            object_border_blue  = object.border.blue
+            
+        if app.hovering == 1:
+            match mode:
+                case "darken":
+                    if object.fill:
+                        object_red   *= darkenModAmount
+                        object_green *= darkenModAmount
+                        object_blue  *= darkenModAmount
+                        
+                        if object_red > 255: object_red = 255
+                        if object_green > 255: object_green = 255
+                        if object_blue > 255: object_blue = 255
+                        
+                        object.fill = rgb(object_red, object_green, object_blue)
 
+                    if object.border:    
+                        object_border_red   *= darkenModAmount
+                        object_border_green *= darkenModAmount
+                        object_border_blue  *= darkenModAmount
+                    
+                        if object_border_red > 255: object_border_red = 255
+                        if object_border_green > 255: object_border_green = 255
+                        if object_border_blue > 255: object_border_blue = 255
+                        
+                        object.border = rgb(object_border_red, object_border_green, object_border_blue)
+                
+                case "lighten":
+                    if object.fill:
+                        object_red   *= lightenModAmount
+                        object_green *= lightenModAmount
+                        object_blue  *= lightenModAmount
+                        
+                        if object_red > 255: object_red = 255
+                        if object_green > 255: object_green = 255
+                        if object_blue > 255: object_blue = 255
+                        
+                        object.fill   = rgb(object_red, object_green, object_blue)
+                        
+                    if object.border:
+                        object_border_red   *= lightenModAmount
+                        object_border_green *= lightenModAmount
+                        object_border_blue  *= lightenModAmount
 
+                        if object_border_red > 255: object_border_red = 255
+                        if object_border_green > 255: object_border_green = 255
+                        if object_border_blue > 255: object_border_blue = 255
+            
+                        object.border = rgb(object_border_red, object_border_green, object_border_blue)
 
 class Menu(Rect):
     def __init__(self, *args, fill=Colors.gray, border=Colors.darkerGray, borderWidth: int|float = 2,debug: bool = False, **kwargs):
@@ -301,7 +360,7 @@ class Menu(Rect):
         self.__updateData()
         return self.data
     
-    class Button:
+    class Button: # TODO: refactor this so that it subclasses Rect
         def __init__(self, parent, onclick,
                      horizontalAlign: int|float, verticalAlign: int|float,
                      width: int|float, height: int|float, fill = Colors.darkgray, borderFill = Colors.darkerGray, borderWidth: int|float = 2,
@@ -311,6 +370,7 @@ class Menu(Rect):
             self.parent = parent
             self.onclick = onclick
             self.debug = debug
+
             self.hasEventListener = False
             if onclick is not None:
                 self.hasEventListener = True
@@ -498,7 +558,8 @@ if __name__ == "__main__":
         border=Colors.darkerGray,
         borderWidth=5
     )
-    print(testMenu.getData())
+    menuData = testMenu.getData()
+    print(menuData["BackgroundFill"])
 
     def testFoo():
         print("im a boring button")
@@ -555,5 +616,14 @@ if __name__ == "__main__":
         testButton2.addEventListener(x, y)
         exitButton.addEventListener(x, y)
         testPresetButton.addEventListener(x, y)
+
+    def onMouseMove(x, y):
+        if testMenu.contains(x, y):
+            app.hovering += 1
+            Functions.hover(testMenu)
+        else:
+            testMenu.fill = rgb(*menuData["BackgroundFill"])
+            testMenu.border = rgb(*menuData["BorderFill"])
+            app.hovering = 0
 
     cmu_graphics.run() # type: ignore
