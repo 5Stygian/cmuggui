@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "cmuggui"
-version = "0.0.2"
+version = "0.0.3.1"
 authors = [
   { name="5Stygian", email="rlcrafistohard@gmail.com" },
 ]
@@ -23,3 +23,4 @@ license-files = ["LICEN[CS]E*"]
 [project.urls]
 Homepage = "https://github.com/5stygian/cmuggui"
 Issues = "https://github.com/5stygian/cmuggui/issues"
+Documentation = "cmuggui-docs.netlify.app/"
