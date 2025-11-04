@@ -205,10 +205,11 @@ class Functions:
 
 
 class Menu(Rect):
-    def __init__(self, *args, fill=Colors.gray, border=Colors.darkerGray, debug: bool = False, **kwargs):
-        super().__init__(*args, **kwargs, fill=fill, border=border)
-        self.fill   = fill
-        self.border = border
+    def __init__(self, *args, fill=Colors.gray, border=Colors.darkerGray, borderWidth: int|float = 2,debug: bool = False, **kwargs):
+        super().__init__(*args, **kwargs, fill=fill, border=border, borderWidth=borderWidth)
+        self.fill        = fill
+        self.border      = border
+        self.borderWidth = borderWidth
 
         self.debug = debug
         if self.debug:
@@ -408,14 +409,23 @@ class Menu(Rect):
                         "Height": self.boundingBox.height,
                         "Center": (self.boundingBox.centerX, self.boundingBox.centerY)
                     },
-                    "BackgroundFill": (self.boundingBox.fill),
-                    "BorderFill": (self.boundingBox.border),
+                    "BackgroundFill": self.boundingBox.fill,
+                    "BorderFill": self.boundingBox.border,
                     "BorderWidth": self.boundingBox.borderWidth,
                     "IsVisible": self.boundingBox.visible
                 },
                 "Text": {
-                    "Position": (self.text.centerX, self.text.centerY),
-                    "Fill": (self.text.fill),
+                    "Dimensions": {
+                        "TopLeft": (self.text.left, self.text.top),
+                        "TopRight": (self.text.right, self.text.top),
+                        "BottomLeft": (self.text.left, self.text.bottom),
+                        "BottomRight": (self.text.right, self.text.bottom),
+                        "Width": self.text.width,
+                        "Height": self.text.height,
+                        "Center": (self.text.centerX, self.text.centerY),
+                    },
+                    "Value": self.text.value,
+                    "Fill": self.text.fill,
                     "Font": self.text.font,
                     "Size": self.text.size,
                     "IsBold": self.text.bold,
@@ -441,13 +451,22 @@ class Menu(Rect):
                         "Height": self.boundingBox.height,
                         "Center": (self.boundingBox.centerX, self.boundingBox.centerY)
                     },
-                    "BackgroundFill": (self.boundingBox.fill),
-                    "BorderFill": (self.boundingBox.border),
+                    "BackgroundFill": self.boundingBox.fill,
+                    "BorderFill": self.boundingBox.border,
                     "BorderWidth": self.boundingBox.borderWidth,
                     "IsVisible": self.boundingBox.visible
                 },
                 "Text": {
-                    "Position": (self.text.centerX, self.text.centerY),
+                    "Dimensions": {
+                        "TopLeft": (self.text.left, self.text.top),
+                        "TopRight": (self.text.right, self.text.top),
+                        "BottomLeft": (self.text.left, self.text.bottom),
+                        "BottomRight": (self.text.right, self.text.bottom),
+                        "Width": self.text.width,
+                        "Height": self.text.height,
+                        "Center": (self.text.centerX, self.text.centerY),
+                    },
+                    "Value": self.text.value,
                     "Fill": self.text.fill,
                     "Font": self.text.font,
                     "Size": self.text.size,
@@ -464,6 +483,7 @@ class Menu(Rect):
             if self.buttonGroup.contains(x, y):
                 if event == "mouseDown":
                     self.onclick()
+
 
 # tests
 if __name__ == "__main__":

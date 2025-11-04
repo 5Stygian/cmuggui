@@ -208,3 +208,6 @@ __marimo__/
 
 # for local cmu_graphics installs
 cmu_graphics
+
+# venv
+cmuggui
