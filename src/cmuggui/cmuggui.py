@@ -316,7 +316,6 @@ class Menu(Rect):
             self.opacity = 0
             self.getData()
 
-        
         self.data = {
             "Class": f"{self.__class__.__name__}",
             "Debug": self.debug,
@@ -329,8 +328,8 @@ class Menu(Rect):
                 "Height": self.height,
                 "Center": (self.centerX, self.centerY)
             },
-            "BackgroundFill": f"{(self.fill)}",
-            "BorderFill": (self.border.red, self.border.green, self.border.blue),
+            "BackgroundFill": self.fill,
+            "BorderFill": self.border,
             "BorderWidth": self.borderWidth,
             "IsVisible": self.visible
         }
@@ -350,8 +349,8 @@ class Menu(Rect):
                 "Height": self.height,
                 "Center": (self.centerX, self.centerY)
             },
-            "BackgroundFill": (self.fill.red, self.fill.green, self.fill.blue),
-            "BorderFill": (self.border.red, self.border.green, self.border.blue),
+            "BackgroundFill": self.fill,
+            "BorderFill": self.border,
             "BorderWidth": self.borderWidth,
             "IsVisible": self.visible
         }
@@ -360,95 +359,72 @@ class Menu(Rect):
         self.__updateData()
         return self.data
     
-    class Button: # TODO: refactor this so that it subclasses Rect
-        def __init__(self, parent, onclick,
-                     horizontalAlign: int|float, verticalAlign: int|float,
-                     width: int|float, height: int|float, fill = Colors.darkgray, borderFill = Colors.darkerGray, borderWidth: int|float = 2,
-                     textValue: str = "", textFill = "black", textFont: str = "arial", textSize: int|float = 12,
+    class Button(Rect):
+        def __init__(self, parent, *args, 
+                     textValue: str = "", textFill = rgb(0,0,0), textSize: int|float = 12.0, textFont: str = "arial", textOpacity: int|float = 100,
                      textIsBold: bool = False, textIsItalic: bool = False, textIsVisible: bool = True,
-                     debug: bool = False):
-            self.parent = parent
-            self.onclick = onclick
-            self.debug = debug
+                     debug: bool = False, **kwargs):
+            super().__init__(*args, **kwargs)
+            self.parent  = parent
 
-            self.hasEventListener = False
-            if onclick is not None:
-                self.hasEventListener = True
-            if self.hasEventListener == False:
-                print(f"Button with textValue=\"{self.textValue}\" has no function bound")
-
-            self.horizontalAlign = horizontalAlign
-            self.verticalAlign   = verticalAlign
-            self.ArgWidth        = width
-            self.ArgHeight       = height
-            
-            self.backgroundFill = fill
-            self.borderFill     = borderFill
-            self.borderWidth    = borderWidth
-            
-            self.boundingBox = Rect(
-                parent.centerX+self.horizontalAlign,
-                parent.top+self.verticalAlign,
-                self.ArgWidth,self.ArgHeight,
-                fill=self.backgroundFill,
-                border=self.borderFill,
-                borderWidth=self.borderWidth
-            )
+            # align with parent Menu
+            self.left = (parent.centerX - self.width/2) + self.left
+            self.top = parent.top + self.top
             
             self.textValue = textValue
-            self.textFill = textFill
-            self.textFont = textFont
-            self.textSize = textSize
+            self.textFill  = textFill
+            self.textSize  = textSize
+            self.textFont  = textFont
             self.textIsBold = textIsBold
             self.textIsItalic = textIsItalic
+            self.textOpacity = textOpacity
             self.textIsVisible = textIsVisible
             self.text = Label(
                 self.textValue,
-                self.boundingBox.centerX,self.boundingBox.centerY,
+                self.centerX, self.centerY,
                 fill=self.textFill,
-                font=self.textFont,
                 size=self.textSize,
+                font=self.textFont,
                 bold=self.textIsBold,
                 italic=self.textIsItalic,
+                opacity=self.textOpacity,
                 visible=self.textIsVisible
             )
-            
-            self.buttonGroup = Group( self.boundingBox, self.text )
 
             if self.debug:
                 #self.widthFormula = 20*(self.boundingBox.width/self.boundingBox.height)
                 self.widthFormula = 5
                 self.dbNWSE = Line(
-                    self.boundingBox.left, self.boundingBox.top,
-                    self.boundingBox.right, self.boundingBox.bottom,
+                    self.left, self.top,
+                    self.right, self.bottom,
                     fill=Colors.DEBUG.NORTHWEST_SOUTHEAST,
                     lineWidth=self.widthFormula,
                     opacity=55
                 )
                 self.dbNESW = Line(
-                    self.boundingBox.right, self.boundingBox.top,
-                    self.boundingBox.left, self.boundingBox.bottom,
+                    self.right, self.top,
+                    self.left, self.bottom,
                     fill=Colors.DEBUG.NORTHEAST_SOUTHWEST,
                     lineWidth=self.widthFormula,
                     opacity=55
                 )
                 self.dbNS = Line(
-                    self.boundingBox.centerX, self.boundingBox.top,
-                    self.boundingBox.centerX, self.boundingBox.bottom,
+                    self.centerX, self.top,
+                    self.centerX, self.bottom,
                     fill=Colors.DEBUG.NORTH_SOUTH,
                     lineWidth=self.widthFormula,
                     opacity=55
                 )
                 self.dbEW = Line(
-                    self.boundingBox.left, self.boundingBox.centerY,
-                    self.boundingBox.right, self.boundingBox.centerY,
+                    self.left, self.centerY,
+                    self.right, self.centerY,
                     fill=Colors.DEBUG.EAST_WEST,
                     lineWidth=self.widthFormula,
                     opacity=55
                 )
                 self.dbBorder = Rect(
-                    self.boundingBox.left, self.boundingBox.top,
-                    self.boundingBox.width, self.boundingBox.height,
+                    self.left, self.top,
+                    self.width, self.height,
                     fill=None,
                     border=Colors.DEBUG.BORDER,
                     borderWidth=self.widthFormula,
@@ -465,18 +441,19 @@ class Menu(Rect):
                 "HasEventListener": self.hasEventListener,
                 "BoundingBox": {
                     "Dimensions": {
-                        "TopLeft": (self.boundingBox.left, self.boundingBox.top),
-                        "TopRight": (self.boundingBox.right, self.boundingBox.top),
-                        "BottomLeft": (self.boundingBox.left, self.boundingBox.bottom),
-                        "BottomRight": (self.boundingBox.right, self.boundingBox.bottom),
-                        "Width": self.boundingBox.width,
-                        "Height": self.boundingBox.height,
-                        "Center": (self.boundingBox.centerX, self.boundingBox.centerY)
+                        "TopLeft": (self.left, self.top),
+                        "TopRight": (self.right, self.top),
+                        "BottomLeft": (self.left, self.bottom),
+                        "BottomRight": (self.right, self.bottom),
+                        "Width": self.width,
+                        "Height": self.height,
+                        "Center": (self.centerX, self.centerY)
                     },
-                    "BackgroundFill": self.boundingBox.fill,
-                    "BorderFill": self.boundingBox.border,
-                    "BorderWidth": self.boundingBox.borderWidth,
-                    "IsVisible": self.boundingBox.visible
+                    "BackgroundFill": self.fill,
+                    "BorderFill": self.border,
+                    "BorderWidth": self.borderWidth,
+                    "Opacity": self.opacity,
+                    "IsVisible": self.visible
                 },
                 "Text": {
                     "Dimensions": {
@@ -494,6 +471,7 @@ class Menu(Rect):
                     "Size": self.text.size,
                     "IsBold": self.text.bold,
                     "IsItalic": self.text.italic,
+                    "Opacity": self.text.opacity,
                     "IsVisible": self.text.visible
                 }
             }
@@ -507,18 +485,19 @@ class Menu(Rect):
                 "HasEventListener": self.hasEventListener,
                 "BoundingBox": {
                     "Dimensions": {
-                        "TopLeft": (self.boundingBox.left, self.boundingBox.top),
-                        "TopRight": (self.boundingBox.right, self.boundingBox.top),
-                        "BottomLeft": (self.boundingBox.left, self.boundingBox.bottom),
-                        "BottomRight": (self.boundingBox.right, self.boundingBox.bottom),
-                        "Width": self.boundingBox.width,
-                        "Height": self.boundingBox.height,
-                        "Center": (self.boundingBox.centerX, self.boundingBox.centerY)
+                        "TopLeft": (self.left, self.top),
+                        "TopRight": (self.right, self.top),
+                        "BottomLeft": (self.left, self.bottom),
+                        "BottomRight": (self.right, self.bottom),
+                        "Width": self.width,
+                        "Height": self.height,
+                        "Center": (self.centerX, self.centerY)
                     },
-                    "BackgroundFill": self.boundingBox.fill,
-                    "BorderFill": self.boundingBox.border,
-                    "BorderWidth": self.boundingBox.borderWidth,
-                    "IsVisible": self.boundingBox.visible
+                    "BackgroundFill": self.fill,
+                    "BorderFill": self.border,
+                    "BorderWidth": self.borderWidth,
+                    "Opacity": self.opacity,
+                    "IsVisible": self.visible
                 },
                 "Text": {
                     "Dimensions": {
@@ -536,6 +515,7 @@ class Menu(Rect):
                     "Size": self.text.size,
                     "IsBold": self.text.bold,
                     "IsItalic": self.text.italic,
+                    "Opacity": self.text.opacity,
                     "IsVisible": self.text.visible
                 }
             }
@@ -543,10 +523,10 @@ class Menu(Rect):
         def getData(self) -> Dict:
             return self.data
         
-        def addEventListener(self, x, y, event: str = "mouseDown") -> None:
-            if self.buttonGroup.contains(x, y):
+        def addEventListener(self, x, y, onclick = None, event: str = "mouseDown") -> None:
+            if self.contains(x, y):
                 if event == "mouseDown":
-                    self.onclick()
+                    onclick()
 
 
 # tests
@@ -566,7 +546,6 @@ if __name__ == "__main__":
 
     testButton = Menu.Button(
         testMenu,
-        testFoo,
         -20, 8,
         50, 30,
         fill=rgb(175,175,175),
@@ -581,7 +560,6 @@ if __name__ == "__main__":
 
     testButton2 = Menu.Button(
         testMenu,
-        testFoo2,
         -30, 40,
         70, 40,
         fill=gradient("yellow", "white", start="right"),
@@ -592,38 +570,37 @@ if __name__ == "__main__":
         textSize=15,
         textIsBold=True
     )
-    print(testButton2.getData())
+    tb2Data = testButton2.getData()
+    print(tb2Data)
     
     def buttonPresetFoo():
         print("unpacking operator is my favorite python featrue")
 
-    def buttonPreset(presetFoo):
-        presetFoo=presetFoo
-        return [testMenu, presetFoo, -40, 100, 70, 50]
+    def buttonPreset():
+        return [testMenu, -40, 100, 70, 50]
 
     testPresetButton = Menu.Button( *buttonPreset(buttonPresetFoo), textValue="preset", textSize=22 )
 
     exitButton = Menu.Button(
         testMenu,
-        Functions.QQUIT,
         -20, 365,
         40, 20,
         textValue="QUIT"
     )
 
     def onMousePress(x, y):
-        testButton.addEventListener(x, y)
-        testButton2.addEventListener(x, y)
-        exitButton.addEventListener(x, y)
-        testPresetButton.addEventListener(x, y)
+        testButton.addEventListener(x, y, onclick=testFoo)
+        testButton2.addEventListener(x, y, onclick=testFoo2)
+        exitButton.addEventListener(x, y, onclick=Functions.QQUIT)
+        testPresetButton.addEventListener(x, y, onclick=buttonPresetFoo)
 
     def onMouseMove(x, y):
-        if testMenu.contains(x, y):
+        if testButton2.contains(x, y):
             app.hovering += 1
-            Functions.hover(testMenu)
+            Functions.hover(testButton2)
         else:
-            testMenu.fill = rgb(*menuData["BackgroundFill"])
-            testMenu.border = rgb(*menuData["BorderFill"])
+            testButton2.fill = rgb(*tb2Data["BoundingBox"]["BackgroundFill"])
+            testButton2.border = rgb(*tb2Data["BoundingBox"]["BorderFill"])
             app.hovering = 0
 
     cmu_graphics.run() # type: ignore
