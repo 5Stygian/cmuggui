@@ -275,7 +275,7 @@ class Menu(Rect):
         self.borderWidth = borderWidth
 
         self.debug = debug
-        if self.debug:
+        if self.debug == True:
             self.widthFormula = 20*(self.width/self.height)
             self.dbNWSE = Line(
                 self.left, self.top,
@@ -366,6 +366,8 @@ class Menu(Rect):
                      debug: bool = False, **kwargs):
             super().__init__(*args, **kwargs)
             self.parent  = parent
+            self.onclick = Functions.NOFUNCTION
+            self.hasEventListener = False
 
             # align with parent Menu
             self.left = (parent.centerX - self.width/2) + self.left
@@ -391,7 +393,8 @@ class Menu(Rect):
                 visible=self.textIsVisible
             )
 
-            if self.debug:
+            self.debug = debug
+            if self.debug == True:
                 #self.widthFormula = 20*(self.boundingBox.width/self.boundingBox.height)
                 self.widthFormula = 5
                 self.dbNWSE = Line(
@@ -430,7 +433,7 @@ class Menu(Rect):
                     borderWidth=self.widthFormula,
                     #opacity=55
                 )
-                self.boundingBox.opacity = 0
+                self.opacity = 0
                 self.getData()
 
             self.data = {
@@ -524,8 +527,7 @@ class Menu(Rect):
             return self.data
         
         def addEventListener(self, x, y, onclick = None, event: str = "mouseDown") -> None:
-            if onclick is None:
-                raise TypeError("onclick should be a function, not None")
+            self.hasEventListner = True
             
             if self.contains(x, y):
                 if event == "mouseDown":
@@ -552,11 +554,12 @@ if __name__ == "__main__":
         -20, 8,
         50, 30,
         fill=rgb(175,175,175),
-        borderFill=rgb(120,120,120),
+        border=rgb(120,120,120),
         borderWidth=1,
         textValue="Test"
     )
-    print(testButton.getData())
+    tbData = testButton.getData()
+    print(tbData)
 
     def testFoo2():
         print("im a cooler button")
@@ -566,7 +569,7 @@ if __name__ == "__main__":
         -30, 40,
         70, 40,
         fill=gradient("yellow", "white", start="right"),
-        borderFill=gradient("blue", "green", "red", start="left"),
+        border=gradient("blue", "green", "red", start="left"),
         borderWidth=4,
         textValue="test",
         textFill=gradient("red", "white"),
@@ -575,19 +578,12 @@ if __name__ == "__main__":
     )
     tb2Data = testButton2.getData()
     print(tb2Data)
-    
-    def buttonPresetFoo():
-        print("unpacking operator is my favorite python featrue")
-
-    def buttonPreset():
-        return [testMenu, -40, 100, 70, 50]
-
-    testPresetButton = Menu.Button( *buttonPreset(buttonPresetFoo), textValue="preset", textSize=22 )
 
     exitButton = Menu.Button(
         testMenu,
         -20, 365,
         40, 20,
+        fill=Colors.CSS3.slategray,
         textValue="QUIT"
     )
 
@@ -595,15 +591,14 @@ if __name__ == "__main__":
         testButton.addEventListener(x, y, onclick=testFoo)
         testButton2.addEventListener(x, y, onclick=testFoo2)
         exitButton.addEventListener(x, y, onclick=Functions.QQUIT)
-        testPresetButton.addEventListener(x, y, onclick=buttonPresetFoo)
 
     def onMouseMove(x, y):
-        if testButton2.contains(x, y):
+        if testButton.contains(x, y):
             app.hovering += 1
-            Functions.hover(testButton2)
+            Functions.hover(testButton)
         else:
-            testButton2.fill = rgb(*tb2Data["BoundingBox"]["BackgroundFill"])
-            testButton2.border = rgb(*tb2Data["BoundingBox"]["BorderFill"])
+            testButton.fill = tbData["BoundingBox"]["BackgroundFill"]
+            testButton.border = tbData["BoundingBox"]["BorderFill"]
             app.hovering = 0
 
     cmu_graphics.run() # type: ignore
