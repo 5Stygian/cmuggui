@@ -524,6 +524,9 @@ class Menu(Rect):
             return self.data
         
         def addEventListener(self, x, y, onclick = None, event: str = "mouseDown") -> None:
+            if onclick is None:
+                raise TypeError("onclick should be a function, not None")
+            
             if self.contains(x, y):
                 if event == "mouseDown":
                     onclick()
