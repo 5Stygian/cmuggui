@@ -207,7 +207,7 @@ class Functions:
             case "origin_Custom":
                 object.rotate(degrees, originX, originY)
     
-    @staticmethod
+    @staticmethod # TODO: make this work with gradients
     def hover(object, mode="darken", darkenModAmount=0.9, lightenModAmount=1.1) -> None:
         if object.fill:
             object_red   = object.fill.red
