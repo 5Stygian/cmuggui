@@ -1,7 +1,6 @@
 from cmu_graphics import *
 app.hovering = 0
 
-
 from typing import Dict
 import sys
 
