@@ -208,6 +208,8 @@ class Functions:
     
     @staticmethod # TODO: make this work with gradients
     def hover(object, mode="darken", darkenModAmount=0.9, lightenModAmount=1.1) -> None:
+        objectData = object.getData()
+
         if object.fill:
             object_red   = object.fill.red
             object_green = object.fill.green
@@ -531,7 +533,6 @@ class Menu(Rect):
             if self.contains(x, y):
                 if event == "mouseDown":
                     onclick()
-
 
 # tests
 if __name__ == "__main__":
