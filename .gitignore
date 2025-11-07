@@ -212,3 +212,6 @@ cmu_graphics
 # venv
 cmuggui
 testing
+
+# vscode settings
+.vscode
