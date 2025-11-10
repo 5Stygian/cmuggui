@@ -201,19 +201,40 @@ class Functions:
     
     @staticmethod
     def rotate(object, degrees: int|float, origin: str="object_Center", originX: int|float|None=None, originY: int|float|None=None) -> None:
-        match origin:
-            case "object_Center":
-                object.rotate(degrees, object.centerX, object.centerY)
-            case "object_TopLeft":
-                object.rotate(degrees, object.left, object.top)
-            case "object_TopRight":
-                object.rotate(degrees, object.right, object.top)
-            case "object_BottomLeft":
-                object.rotate(degrees, object.left, object.bottom)
-            case "object_BottomRight":
-                object.rotate(degrees, object.right, object.bottom)
-            case "origin_Custom":
-                object.rotate(degrees, originX, originY)
+        if type(object) == Menu:
+            match origin:
+                case "object_Center":
+                    object.rotate(degrees, object.centerX, object.centerY)
+                case "object_TopLeft":
+                    object.rotate(degrees, object.left, object.top)
+                case "object_TopRight":
+                    object.rotate(degrees, object.right, object.top)
+                case "object_BottomLeft":
+                    object.rotate(degrees, object.left, object.bottom)
+                case "object_BottomRight":
+                    object.rotate(degrees, object.right, object.bottom)
+                case "origin_Custom":
+                    object.rotate(degrees, originX, originY)
+        elif type(object) == Menu.Button:
+            match origin:
+                case "object_Center":
+                    object.rotate(degrees, object.centerX, object.centerY)
+                    object.text.rotate(degrees, object.centerX, object.centerY)
+                case "object_TopLeft":
+                    object.rotate(degrees, object.left, object.top)
+                    object.text.rotate(degrees, object.left, object.top)
+                case "object_TopRight":
+                    object.rotate(degrees, object.right, object.top)
+                    object.text.rotate(degrees, object.right, object.top)
+                case "object_BottomLeft":
+                    object.rotate(degrees, object.left, object.bottom)
+                    object.text.rotate(degrees, object.left, object.bottom)
+                case "object_BottomRight":
+                    object.rotate(degrees, object.right, object.bottom)
+                    object.text.rotate(degrees, object.right, object.bottom)
+                case "origin_Custom":
+                    object.rotate(degrees, originX, originY)
+                    object.text.rotate(degrees, originX, originY)
 
     # im sorry this is so long
     @staticmethod
@@ -689,6 +710,8 @@ if __name__ == "__main__":
         fill=Colors.CSS3.slategray,
         textValue="QUIT"
     )
+
+    Functions.rotate(exitButton, 120)
 
     def onMousePress(x, y):
         testButton.addEventListener(x, y, onclick=testFoo)
