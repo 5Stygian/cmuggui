@@ -214,163 +214,163 @@ class Functions:
                 object.rotate(degrees, object.right, object.bottom)
             case "origin_Custom":
                 object.rotate(degrees, originX, originY)
-    
+
+    # im sorry this is so long
     @staticmethod
     def hover(object, mode="darken", darkenModAmount=0.9, lightenModAmount=1.1) -> None:
-        if object.fill:
-            object_red   = object.fill.red
-            object_green = object.fill.green
-            object_blue  = object.fill.blue
-        
-        if object.border:
-            object_border_red   = object.border.red
-            object_border_green = object.border.green
-            object_border_blue  = object.border.blue
-            
-        if app.hovering == 1:
-            match mode:
-                case "darken":
-                    if object.fill:
-                        object_red   *= darkenModAmount
-                        object_green *= darkenModAmount
-                        object_blue  *= darkenModAmount
-                        
-                        if object_red > 255: object_red = 255
-                        if object_green > 255: object_green = 255
-                        if object_blue > 255: object_blue = 255
-                        
-                        object.fill = rgb(object_red, object_green, object_blue)
-
-                    if object.border:    
-                        object_border_red   *= darkenModAmount
-                        object_border_green *= darkenModAmount
-                        object_border_blue  *= darkenModAmount
-                    
-                        if object_border_red > 255: object_border_red = 255
-                        if object_border_green > 255: object_border_green = 255
-                        if object_border_blue > 255: object_border_blue = 255
-                        
-                        object.border = rgb(object_border_red, object_border_green, object_border_blue)
-                
-                case "lighten":
-                    if object.fill:
-                        object_red   *= lightenModAmount
-                        object_green *= lightenModAmount
-                        object_blue  *= lightenModAmount
-                        
-                        if object_red > 255: object_red = 255
-                        if object_green > 255: object_green = 255
-                        if object_blue > 255: object_blue = 255
-                        
-                        object.fill = rgb(object_red, object_green, object_blue)
-                        
-                    if object.border:
-                        object_border_red   *= lightenModAmount
-                        object_border_green *= lightenModAmount
-                        object_border_blue  *= lightenModAmount
-
-                        if object_border_red > 255: object_border_red = 255
-                        if object_border_green > 255: object_border_green = 255
-                        if object_border_blue > 255: object_border_blue = 255
-            
-                        object.border = rgb(object_border_red, object_border_green, object_border_blue)
-
-    # i am sorry this method is so long
-    @staticmethod
-    def gradientHover(object, mode="darken", darkenModAmount=0.9, lightenModAmount=1.1):
-        endFill   = []
-        endBorder = []
-        
-        if darkenModAmount > 1 or darkenModAmount < 0:
+        if darkenModAmount >= 1 or darkenModAmount < 0:
             raise cmugguiError.RangeError("darkenModAmount must be in range 0.0 to 1.0")
         
-        if lightenModAmount < 1:
+        if lightenModAmount <= 1:
             raise cmugguiError.RangeError("lightenModAmount must be greater than 1")
         
-        if app.hovering == 1:
-            match mode:
-                case "darken":
-                    if object.fill:
-                        for _ in range(len(object.fill.colors)):
-                            fill_r = object.fill.colors[_].red
-                            fill_g = object.fill.colors[_].green
-                            fill_b = object.fill.colors[_].blue
-                            
+        if object.fill:
+            if type(object.fill) == rgb:
+                fill_r   = object.fill.red
+                fill_g = object.fill.green
+                fill_b  = object.fill.blue
+            
+                if app.hovering == 1:
+                    match mode:
+                        case "darken":
                             fill_r *= darkenModAmount
                             fill_g *= darkenModAmount
                             fill_b *= darkenModAmount
-                            
-                            fill_r = rounded(fill_r)
-                            fill_g = rounded(fill_g)
-                            fill_b = rounded(fill_b)
-                            
-                            endFill.append(rgb(fill_r, fill_g, fill_b))
-    
-                    if object.border:
-                        for _ in range(len(object.border.colors)):
-                            fill_r = object.border.colors[_].red
-                            fill_g = object.border.colors[_].green
-                            fill_b = object.border.colors[_].blue
-                            
-                            fill_r *= darkenModAmount
-                            fill_g *= darkenModAmount
-                            fill_b *= darkenModAmount
-                            
-                            fill_r = rounded(fill_r)
-                            fill_g = rounded(fill_g)
-                            fill_b = rounded(fill_b)
-                            
-                            endBorder.append(rgb(fill_r, fill_g, fill_b))
-    
-                case "lighten":
-                    if object.fill:
-                        for _ in range(len(object.fill.colors)):
-                            fill_r = object.fill.colors[_].red
-                            fill_g = object.fill.colors[_].green
-                            fill_b = object.fill.colors[_].blue
-                            
-                            fill_r *= lightenModAmount
-                            fill_g *= lightenModAmount
-                            fill_b *= lightenModAmount
-                            
-                            fill_r = rounded(fill_r)
-                            fill_g = rounded(fill_g)
-                            fill_b = rounded(fill_b)
                             
                             if fill_r > 255: fill_r = 255
                             if fill_g > 255: fill_g = 255
                             if fill_b > 255: fill_b = 255
                             
-                            endFill.append(rgb(fill_r, fill_g, fill_b))
-    
-                    if object.border:
-                        for _ in range(len(object.border.colors)):
-                            fill_r = object.border.colors[_].red
-                            fill_g = object.border.colors[_].green
-                            fill_b = object.border.colors[_].blue
-                            
-                            fill_r *= lightenModAmount
+                            object.fill = rgb(fill_r, fill_g, fill_b)
+                                
+                        case "lighten":
+                            fill_r   *= lightenModAmount
                             fill_g *= lightenModAmount
-                            fill_b *= lightenModAmount
-                            
-                            fill_r = rounded(fill_r)
-                            fill_g = rounded(fill_g)
-                            fill_b = rounded(fill_b)
+                            fill_b  *= lightenModAmount
                             
                             if fill_r > 255: fill_r = 255
                             if fill_g > 255: fill_g = 255
                             if fill_b > 255: fill_b = 255
                             
-                            endBorder.append(rgb(fill_r, fill_g, fill_b))
+                            object.fill   = rgb(fill_r, fill_g, fill_b)
+                
+            elif type(object.fill) == gradient:
+                endFill = []
+                
+                if app.hovering == 1:
+                    match mode:
+                        case "darken":
+                            for _ in range(len(object.fill.colors)):
+                                fill_r = object.fill.colors[_].red
+                                fill_g = object.fill.colors[_].green
+                                fill_b = object.fill.colors[_].blue
+                                
+                                fill_r *= darkenModAmount
+                                fill_g *= darkenModAmount
+                                fill_b *= darkenModAmount
+                                
+                                fill_r = rounded(fill_r)
+                                fill_g = rounded(fill_g)
+                                fill_b = rounded(fill_b)
+                                
+                                endFill.append(rgb(fill_r, fill_g, fill_b))
+    
+                        case "lighten":
+                            for _ in range(len(object.fill.colors)):
+                                fill_r = object.fill.colors[_].red
+                                fill_g = object.fill.colors[_].green
+                                fill_b = object.fill.colors[_].blue
+                                
+                                fill_r *= lightenModAmount
+                                fill_g *= lightenModAmount
+                                fill_b *= lightenModAmount
+                                
+                                fill_r = rounded(fill_r)
+                                fill_g = rounded(fill_g)
+                                fill_b = rounded(fill_b)
+                                
+                                if fill_r > 255: fill_r = 255
+                                if fill_g > 255: fill_g = 255
+                                if fill_b > 255: fill_b = 255
+                                
+                                endFill.append(rgb(fill_r, fill_g, fill_b))
+                
+                    object.fill = gradient(*endFill, start=object.fill.start)
+                    endFill.clear()
+    
+        if object.border:
+            if type(object.border) == rgb:
+                border_r   = object.border.red
+                border_g = object.border.green
+                border_b  = object.border.blue
             
-            if object.fill:
-                object.fill = gradient(*endFill, start=object.fill.start)
-                endFill.clear()
+                if app.hovering == 1:
+                    match mode:
+                        case "darken":
+                            fill_r   *= darkenModAmount
+                            fill_g *= darkenModAmount
+                            fill_b  *= darkenModAmount
+                            
+                            if fill_r > 255: fill_r = 255
+                            if fill_g > 255: fill_g = 255
+                            if fill_b > 255: fill_b = 255
+                            
+                            object.fill = rgb(fill_r, fill_g, fill_b)
+                                
+                        case "lighten":
+                            border_r   *= lightenModAmount
+                            border_g *= lightenModAmount
+                            border_b  *= lightenModAmount
+        
+                            if border_r > 255: border_r = 255
+                            if border_g > 255: border_g = 255
+                            if border_b > 255: border_b = 255
+                
+                            object.border = rgb(border_r, border_g, border_b)
             
-            if object.border:
-                object.border = gradient(*endBorder, start=object.border.start)
-                endBorder.clear()
-
+            elif type(object.border) == gradient:
+                endBorder = []
+                
+                if app.hovering == 1:
+                    match mode:
+                        case "darken":
+                            for _ in range(len(object.border.colors)):
+                                border_r = object.border.colors[_].red
+                                border_g = object.border.colors[_].green
+                                border_b = object.border.colors[_].blue
+                                
+                                border_r *= darkenModAmount
+                                border_g *= darkenModAmount
+                                border_b *= darkenModAmount
+                                
+                                border_r = rounded(border_r)
+                                border_g = rounded(border_g)
+                                border_b = rounded(border_b)
+                                
+                                endBorder.append(rgb(border_r, border_g, border_b))
+    
+                        case "lighten":
+                            for _ in range(len(object.border.colors)):
+                                border_r = object.border.colors[_].red
+                                border_g = object.border.colors[_].green
+                                border_b = object.border.colors[_].blue
+                                
+                                border_r *= lightenModAmount
+                                border_g *= lightenModAmount
+                                border_b *= lightenModAmount
+                                
+                                border_r = rounded(border_r)
+                                border_g = rounded(border_g)
+                                border_b = rounded(border_b)
+                                
+                                if border_r > 255: border_r = 255
+                                if border_g > 255: border_g = 255
+                                if border_b > 255: border_b = 255
+                                
+                                endBorder.append(rgb(border_r, border_g, border_b))
+                
+                    object.border = gradient(*endBorder, start=object.border.start)
+                    endBorder.clear()
 
 class Menu(Rect):
     def __init__(self, *args, fill=Colors.gray, border=Colors.darkerGray, borderWidth: int|float = 2,debug: bool = False, **kwargs):
