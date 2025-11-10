@@ -699,9 +699,16 @@ if __name__ == "__main__":
         if testButton.contains(x, y):
             app.hovering += 1
             Functions.hover(testButton)
+        elif testButton2.contains(x, y):
+            app.hovering += 1
+            Functions.hover(testButton2)
         else:
             testButton.fill = tbData["BoundingBox"]["BackgroundFill"]
             testButton.border = tbData["BoundingBox"]["BorderFill"]
+
+            testButton2.fill = tb2Data["BoundingBox"]["BackgroundFill"]
+            testButton2.border = tb2Data["BoundingBox"]["BorderFill"]
+
             app.hovering = 0
 
     cmu_graphics.run() # type: ignore
