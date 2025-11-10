@@ -238,7 +238,7 @@ class Functions:
 
     # im sorry this is so long
     @staticmethod
-    def hover(object, mode="darken", darkenModAmount=0.9, lightenModAmount=1.1) -> None:
+    def hover(object, mode:str="darken", darkenModAmount:int|float=0.9, lightenModAmount:int|float=1.1) -> None:
         if darkenModAmount >= 1 or darkenModAmount < 0:
             raise cmugguiError.RangeError("darkenModAmount must be in range 0.0 to 1.0")
         
@@ -710,8 +710,6 @@ if __name__ == "__main__":
         fill=Colors.CSS3.slategray,
         textValue="QUIT"
     )
-
-    Functions.rotate(exitButton, 120)
 
     def onMousePress(x, y):
         testButton.addEventListener(x, y, onclick=testFoo)
