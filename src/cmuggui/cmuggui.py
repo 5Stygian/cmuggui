@@ -328,20 +328,20 @@ class Functions:
                 if app.hovering == 1:
                     match mode:
                         case "darken":
-                            fill_r *= darkenModAmount
-                            fill_g *= darkenModAmount
-                            fill_b *= darkenModAmount
+                            border_r *= darkenModAmount
+                            border_g *= darkenModAmount
+                            border_b *= darkenModAmount
                             
-                            if fill_r > 255: fill_r = 255
-                            if fill_g > 255: fill_g = 255
-                            if fill_b > 255: fill_b = 255
+                            if border_r > 255: border_r = 255
+                            if border_g > 255: border_g = 255
+                            if border_b > 255: border_b = 255
                             
-                            object.fill = rgb(fill_r, fill_g, fill_b)
+                            object.border = rgb(border_r, border_g, border_b)
                                 
                         case "lighten":
-                            border_r   *= lightenModAmount
+                            border_r *= lightenModAmount
                             border_g *= lightenModAmount
-                            border_b  *= lightenModAmount
+                            border_b *= lightenModAmount
         
                             if border_r > 255: border_r = 255
                             if border_g > 255: border_g = 255
