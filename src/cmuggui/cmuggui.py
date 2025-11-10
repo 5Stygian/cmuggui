@@ -244,9 +244,9 @@ class Functions:
                             object.fill = rgb(fill_r, fill_g, fill_b)
                                 
                         case "lighten":
-                            fill_r   *= lightenModAmount
+                            fill_r *= lightenModAmount
                             fill_g *= lightenModAmount
-                            fill_b  *= lightenModAmount
+                            fill_b *= lightenModAmount
                             
                             if fill_r > 255: fill_r = 255
                             if fill_g > 255: fill_g = 255
@@ -307,9 +307,9 @@ class Functions:
                 if app.hovering == 1:
                     match mode:
                         case "darken":
-                            fill_r   *= darkenModAmount
+                            fill_r *= darkenModAmount
                             fill_g *= darkenModAmount
-                            fill_b  *= darkenModAmount
+                            fill_b *= darkenModAmount
                             
                             if fill_r > 255: fill_r = 255
                             if fill_g > 255: fill_g = 255
