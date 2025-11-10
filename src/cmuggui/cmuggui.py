@@ -226,9 +226,9 @@ class Functions:
         
         if object.fill:
             if type(object.fill) == rgb:
-                fill_r   = object.fill.red
+                fill_r = object.fill.red
                 fill_g = object.fill.green
-                fill_b  = object.fill.blue
+                fill_b = object.fill.blue
             
                 if app.hovering == 1:
                     match mode:
@@ -300,9 +300,9 @@ class Functions:
     
         if object.border:
             if type(object.border) == rgb:
-                border_r   = object.border.red
+                border_r = object.border.red
                 border_g = object.border.green
-                border_b  = object.border.blue
+                border_b = object.border.blue
             
                 if app.hovering == 1:
                     match mode:
