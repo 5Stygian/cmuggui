@@ -11,6 +11,7 @@ authors = [
   { name="5Stygian", email="rlcrafistohard@gmail.com" },
 ]
 description = "A library for making GUIs in CMU Graphics"
+keywords = ["cmu graphics", "gui"]
 readme = "README.md"
 requires-python = ">=3.12.1"
 classifiers = [
