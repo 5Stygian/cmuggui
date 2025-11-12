@@ -258,6 +258,10 @@ class Functions:
                             fill_g *= darkenModAmount
                             fill_b *= darkenModAmount
                             
+                            fill_r = rounded(fill_r)
+                            fill_g = rounded(fill_g)
+                            fill_b = rounded(fill_b)
+                            
                             if fill_r > 255: fill_r = 255
                             if fill_g > 255: fill_g = 255
                             if fill_b > 255: fill_b = 255
@@ -269,6 +273,10 @@ class Functions:
                             fill_g *= lightenModAmount
                             fill_b *= lightenModAmount
                             
+                            fill_r = rounded(fill_r)
+                            fill_g = rounded(fill_g)
+                            fill_b = rounded(fill_b)
+                                
                             if fill_r > 255: fill_r = 255
                             if fill_g > 255: fill_g = 255
                             if fill_b > 255: fill_b = 255
@@ -332,6 +340,10 @@ class Functions:
                             border_g *= darkenModAmount
                             border_b *= darkenModAmount
                             
+                            border_r = rounded(border_r)
+                            border_g = rounded(border_g)
+                            border_b = rounded(border_b)    
+                            
                             if border_r > 255: border_r = 255
                             if border_g > 255: border_g = 255
                             if border_b > 255: border_b = 255
@@ -342,7 +354,11 @@ class Functions:
                             border_r *= lightenModAmount
                             border_g *= lightenModAmount
                             border_b *= lightenModAmount
-        
+                            
+                            border_r = rounded(border_r)
+                            border_g = rounded(border_g)
+                            border_b = rounded(border_b)    
+                            
                             if border_r > 255: border_r = 255
                             if border_g > 255: border_g = 255
                             if border_b > 255: border_b = 255
@@ -392,6 +408,51 @@ class Functions:
                 
                     object.border = gradient(*endBorder, start=object.border.start)
                     endBorder.clear()
+
+        elif type(object.text.fill) == gradient:
+            endText = []
+            
+            if app.hovering == 1:
+                match mode:
+                    case "darken":
+                        for _ in range(len(object.text.fill.colors)):
+                            text_r = object.text.fill.colors[_].red
+                            text_g = object.text.fill.colors[_].green
+                            text_b = object.text.fill.colors[_].blue
+                            
+                            text_r *= darkenModAmount
+                            text_g *= darkenModAmount
+                            text_b *= darkenModAmount
+                            
+                            text_r = rounded(text_r)
+                            text_g = rounded(text_g)
+                            text_b = rounded(text_b)
+                            
+                            endText.append(rgb(text_r, text_g, text_b))
+            
+                    case "lighten":
+                        for _ in range(len(object.text.fill.colors)):
+                            text_r = object.text.fill.colors[_].red
+                            text_g = object.text.fill.colors[_].green
+                            text_b = object.text.fill.colors[_].blue
+                            
+                            text_r *= lightenModAmount
+                            text_g *= lightenModAmount
+                            text_b *= lightenModAmount
+                            
+                            text_r = rounded(text_r)
+                            text_g = rounded(text_g)
+                            text_b = rounded(text_b)
+                            
+                            if text_r > 255: text_r = 255
+                            if text_g > 255: text_g = 255
+                            if text_b > 255: text_b = 255
+                            
+                            endText.append(rgb(text_r, text_g, text_b))
+            
+                object.text.fill = gradient(*endText, start=object.text.fill.start)
+                endText.clear()
+    
 
 class Menu(Rect):
     def __init__(self, *args, fill=Colors.gray, border=Colors.darkerGray, borderWidth: int|float = 2,debug: bool = False, **kwargs):
