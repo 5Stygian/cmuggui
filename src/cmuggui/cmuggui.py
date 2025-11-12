@@ -1,15 +1,18 @@
 from cmu_graphics import *
 app.hovering = 0
 
+from dataclasses import dataclass
 from typing import Dict
 import sys
 
+@dataclass
 class Colors:
     gray       = rgb(200,200,200)
     darkgray   = rgb(175,175,175)
     darkerGray = rgb(100,100,100)
     
     # CSS 3 colors
+    @dataclass
     class CSS3:
         aliceblue            = rgb(240, 248, 255)
         antiquewhite         = rgb(250, 235, 215)
@@ -160,6 +163,7 @@ class Colors:
         yellowgreen          = rgb(154, 205, 50)
 
     # colors used when debug=True
+    @dataclass(frozen=True)
     class DEBUG:
         NORTHWEST_SOUTHEAST = rgb(255, 0 , 255) # CSS3: magenta
         NORTHEAST_SOUTHWEST = rgb(255, 255, 0)  # CSS3: yellow
@@ -409,58 +413,87 @@ class Functions:
                     object.border = gradient(*endBorder, start=object.border.start)
                     endBorder.clear()
 
-        elif type(object.text.fill) == gradient:
-            endText = []
-            
-            if app.hovering == 1:
-                match mode:
-                    case "darken":
-                        for _ in range(len(object.text.fill.colors)):
-                            text_r = object.text.fill.colors[_].red
-                            text_g = object.text.fill.colors[_].green
-                            text_b = object.text.fill.colors[_].blue
-                            
-                            text_r *= darkenModAmount
-                            text_g *= darkenModAmount
-                            text_b *= darkenModAmount
-                            
-                            text_r = rounded(text_r)
-                            text_g = rounded(text_g)
-                            text_b = rounded(text_b)
-                            
-                            endText.append(rgb(text_r, text_g, text_b))
-            
-                    case "lighten":
-                        for _ in range(len(object.text.fill.colors)):
-                            text_r = object.text.fill.colors[_].red
-                            text_g = object.text.fill.colors[_].green
-                            text_b = object.text.fill.colors[_].blue
-                            
-                            text_r *= lightenModAmount
-                            text_g *= lightenModAmount
-                            text_b *= lightenModAmount
-                            
-                            text_r = rounded(text_r)
-                            text_g = rounded(text_g)
-                            text_b = rounded(text_b)
-                            
-                            if text_r > 255: text_r = 255
-                            if text_g > 255: text_g = 255
-                            if text_b > 255: text_b = 255
-                            
-                            endText.append(rgb(text_r, text_g, text_b))
-            
-                object.text.fill = gradient(*endText, start=object.text.fill.start)
-                endText.clear()
-    
+        if object.text:
+            if type(object.text.fill) == rgb:
+                text_r = object.text.fill.red
+                text_g = object.text.fill.green
+                text_b = object.text.fill.blue
+                
+                if app.hovering == 1:
+                        match mode:
+                            case "darken":
+                                text_r *= darkenModAmount
+                                text_g *= darkenModAmount
+                                text_b *= darkenModAmount
+                                
+                                text_r = rounded(text_r)
+                                text_g = rounded(text_g)
+                                text_b = rounded(text_b)
+                                
+                                object.text.fill = rgb(text_r, text_g, text_b)
+                        
+                            case "lighten":
+                                text_r *= lightenModAmount
+                                text_g *= lightenModAmount
+                                text_b *= lightenModAmount
+                                
+                                text_r = rounded(text_r)
+                                text_g = rounded(text_g)
+                                text_b = rounded(text_b)
+                                
+                                if text_r > 255: text_r = 255
+                                if text_g > 255: text_g = 255
+                                if text_b > 255: text_b = 255
+                                
+                                object.text.fill = rgb(text_r, text_g, text_b)
+                        
+            elif type(object.text.fill) == gradient:
+                endText = []
+                
+                if app.hovering == 1:
+                    match mode:
+                        case "darken":
+                            for _ in range(len(object.text.fill.colors)):
+                                text_r = object.text.fill.colors[_].red
+                                text_g = object.text.fill.colors[_].green
+                                text_b = object.text.fill.colors[_].blue
+                                
+                                text_r *= darkenModAmount
+                                text_g *= darkenModAmount
+                                text_b *= darkenModAmount
+                                
+                                text_r = rounded(text_r)
+                                text_g = rounded(text_g)
+                                text_b = rounded(text_b)
+                                
+                                endText.append(rgb(text_r, text_g, text_b))
+                
+                        case "lighten":
+                            for _ in range(len(object.text.fill.colors)):
+                                text_r = object.text.fill.colors[_].red
+                                text_g = object.text.fill.colors[_].green
+                                text_b = object.text.fill.colors[_].blue
+                                
+                                text_r *= lightenModAmount
+                                text_g *= lightenModAmount
+                                text_b *= lightenModAmount
+                                
+                                text_r = rounded(text_r)
+                                text_g = rounded(text_g)
+                                text_b = rounded(text_b)
+                                
+                                if text_r > 255: text_r = 255
+                                if text_g > 255: text_g = 255
+                                if text_b > 255: text_b = 255
+                                
+                                endText.append(rgb(text_r, text_g, text_b))
+                
+                    object.text.fill = gradient(*endText, start=object.text.fill.start)
+                    endText.clear()
 
 class Menu(Rect):
     def __init__(self, *args, fill=Colors.gray, border=Colors.darkerGray, borderWidth: int|float = 2,debug: bool = False, **kwargs):
         super().__init__(*args, **kwargs, fill=fill, border=border, borderWidth=borderWidth)
-        self.fill        = fill
-        self.border      = border
-        self.borderWidth = borderWidth
-
         self.debug = debug
         if self.debug == True:
             self.widthFormula = 20*(self.width/self.height)
@@ -501,7 +534,6 @@ class Menu(Rect):
                 #opacity=55
             )
             self.opacity = 0
-            self.getData()
 
         self.data = {
             "Class": f"{self.__class__.__name__}",
@@ -623,7 +655,6 @@ class Menu(Rect):
                     #opacity=55
                 )
                 self.opacity = 0
-                self.getData()
 
             self.data = {
                 "Class": f"{self.__class__.__name__}",
@@ -735,14 +766,13 @@ if __name__ == "__main__":
         borderWidth=5
     )
     menuData = testMenu.getData()
-    print(menuData["BackgroundFill"])
 
     def testFoo():
         print("im a boring button")
 
     testButton = Menu.Button(
         testMenu,
-        -20, 8,
+        0, 12,
         50, 30,
         fill=rgb(175,175,175),
         border=rgb(120,120,120),
@@ -757,14 +787,14 @@ if __name__ == "__main__":
 
     testButton2 = Menu.Button(
         testMenu,
-        -30, 40,
+        0, 50,
         70, 40,
         fill=gradient("yellow", "white", start="right"),
         border=gradient("blue", "green", "red", start="left"),
         borderWidth=4,
-        textValue="test",
-        textFill=gradient("red", "white"),
-        textSize=15,
+        textValue="t e s t",
+        textFill=gradient("red", "white", start="right"),
+        textSize=20,
         textIsBold=True
     )
     tb2Data = testButton2.getData()
@@ -772,7 +802,7 @@ if __name__ == "__main__":
 
     exitButton = Menu.Button(
         testMenu,
-        -20, 365,
+        0, 365,
         40, 20,
         fill=Colors.CSS3.slategray,
         textValue="QUIT"
@@ -784,18 +814,13 @@ if __name__ == "__main__":
         exitButton.addEventListener(x, y, onclick=Functions.QQUIT)
 
     def onMouseMove(x, y):
-        if testButton.contains(x, y):
-            app.hovering += 1
-            Functions.hover(testButton)
-        elif testButton2.contains(x, y):
+        if testButton2.contains(x, y):
             app.hovering += 1
             Functions.hover(testButton2)
         else:
-            testButton.fill = tbData["BoundingBox"]["BackgroundFill"]
-            testButton.border = tbData["BoundingBox"]["BorderFill"]
-
-            testButton2.fill = tb2Data["BoundingBox"]["BackgroundFill"]
-            testButton2.border = tb2Data["BoundingBox"]["BorderFill"]
+            testButton2.fill      = tb2Data["BoundingBox"]["BackgroundFill"]
+            testButton2.border    = tb2Data["BoundingBox"]["BorderFill"]
+            testButton2.text.fill = tb2Data["Text"]["Fill"]
 
             app.hovering = 0
 
