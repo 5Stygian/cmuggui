@@ -7,7 +7,7 @@ long_description = (here / "README.md").read_text(encoding="utf-8")
 
 setup(
   name = "cmuggui",
-  version = "0.0.7",
+  version = "0.0.8",
   authors = [
     { name="5Stygian", email="rlcrafistohard@gmail.com" },
   ],
