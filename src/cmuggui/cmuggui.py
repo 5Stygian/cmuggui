@@ -552,6 +552,9 @@ class Menu(Rect):
                      debug: bool = False, **kwargs):
             super().__init__(*args, **kwargs)
             self.parent  = parent
+            if type(self.parent) != Menu:
+                raise TypeError(f"type of self.parent must be Menu, not {type(self.parent)}")
+            
             self.onclick = Functions.NOFUNCTION
             self.hasEventListener = False
 
