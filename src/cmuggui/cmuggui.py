@@ -242,7 +242,7 @@ class Functions:
 
     # im sorry this is so long
     @staticmethod
-    def hover(object, mode:str="darken", darkenModAmount:int|float=0.9, lightenModAmount:int|float=1.1
+    def hover(object, mode:str="darken", darkenModAmount:int|float=0.9, lightenModAmount:int|float=1.1, 
               hoverFill:bool=True, hoverBorder:bool=True, hoverText:bool=True) -> None:
         if darkenModAmount >= 1 or darkenModAmount < 0:
             raise cmugguiError.RangeError("darkenModAmount must be in range 0.0 to 1.0")
@@ -592,8 +592,8 @@ class Menu(Rect):
             self.hasEventListener = False
 
             # align with parent Menu
-            self.left = (parent.centerX - self.width/2) + self.left
-            self.top = parent.top + self.top
+            self.centerX = (parent.centerX - self.width/2) + self.centerX
+            self.centerY = parent.top + self.centerY
             
             self.textValue = textValue
             self.textFill  = textFill
@@ -865,6 +865,12 @@ if __name__ == "__main__":
         40, 20,
         fill=Colors.CSS3.slategray,
         textValue="QUIT"
+    )
+
+    testTitle = Menu.Title(
+        testMenu,
+        "test",
+        0, 100
     )
 
     def onMousePress(x, y):
