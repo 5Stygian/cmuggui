@@ -242,14 +242,15 @@ class Functions:
 
     # im sorry this is so long
     @staticmethod
-    def hover(object, mode:str="darken", darkenModAmount:int|float=0.9, lightenModAmount:int|float=1.1) -> None:
+    def hover(object, mode:str="darken", darkenModAmount:int|float=0.9, lightenModAmount:int|float=1.1
+              hoverFill:bool=True, hoverBorder:bool=True, hoverText:bool=True) -> None:
         if darkenModAmount >= 1 or darkenModAmount < 0:
             raise cmugguiError.RangeError("darkenModAmount must be in range 0.0 to 1.0")
         
         if lightenModAmount <= 1:
             raise cmugguiError.RangeError("lightenModAmount must be greater than 1")
         
-        if object.fill:
+        if object.fill and hoverFill:
             if type(object.fill) == rgb:
                 fill_r = object.fill.red
                 fill_g = object.fill.green
@@ -331,7 +332,7 @@ class Functions:
                     object.fill = gradient(*endFill, start=object.fill.start)
                     endFill.clear()
     
-        if object.border:
+        if object.border and hoverBorder:
             if type(object.border) == rgb:
                 border_r = object.border.red
                 border_g = object.border.green
@@ -413,7 +414,7 @@ class Functions:
                     object.border = gradient(*endBorder, start=object.border.start)
                     endBorder.clear()
 
-        if object.text:
+        if object.text and hoverText:
             if type(object.text.fill) == rgb:
                 text_r = object.text.fill.red
                 text_g = object.text.fill.green
