@@ -757,7 +757,7 @@ class Menu(Rect):
                 if event == "mouseDown":
                     onclick()
 
-    class MLabel(Label):
+    class Title(Label):
         def __init__(self, parent, *args, **kwargs):
             super().__init__(*args, **kwargs)
             self.parent = parent
