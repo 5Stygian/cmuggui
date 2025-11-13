@@ -757,6 +757,64 @@ class Menu(Rect):
                 if event == "mouseDown":
                     onclick()
 
+    class MLabel(Label):
+        def __init__(self, parent, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            self.parent = parent
+            
+            self.centerX = parent.centerX + self.centerX
+            self.centerY = parent.top + self.centerY
+
+            self.data = {
+                "Class": f"{self.__class__.__name__}",
+                "Parent": f"{self.parent}",
+                "Dimensions": {
+                    "TopLeft": (self.left, self.top),
+                    "TopRight": (self.right, self.top),
+                    "BottomLeft": (self.left, self.bottom),
+                    "BottomRight": (self.right, self.bottom),
+                    "Width": self.width,
+                    "Height": self.height,
+                    "Center": (self.centerX, self.centerY)
+                },
+                "Color": self.fill,
+                "Value": self.value,
+                "Fill": self.fill,
+                "Font": self.font,
+                "Size": self.size,
+                "IsBold": self.bold,
+                "IsItalic": self.italic,
+                "Opacity": self.opacity,
+                "IsVisible": self.visible
+            }
+
+        def __updateData(self):
+            self.data = {
+                "Class": f"{self.__class__.__name__}",
+                "Parent": f"{self.parent}",
+                "Dimensions": {
+                    "TopLeft": (self.left, self.top),
+                    "TopRight": (self.right, self.top),
+                    "BottomLeft": (self.left, self.bottom),
+                    "BottomRight": (self.right, self.bottom),
+                    "Width": self.width,
+                    "Height": self.height,
+                    "Center": (self.centerX, self.centerY)
+                },
+                "Color": self.fill,
+                "Value": self.value,
+                "Fill": self.fill,
+                "Font": self.font,
+                "Size": self.size,
+                "IsBold": self.bold,
+                "IsItalic": self.italic,
+                "Opacity": self.opacity,
+                "IsVisible": self.visible
+            }
+
+        def getData(self):
+            return self.data
+    
 # tests
 if __name__ == "__main__":
     testMenu = Menu(
