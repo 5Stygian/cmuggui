@@ -493,7 +493,7 @@ class Functions:
                     endText.clear()
 
 class Menu(Rect):
-    def __init__(self, *args, fill=Colors.gray, border=Colors.darkerGray, borderWidth: int|float = 2,debug: bool = False, psrent=None, **kwargs):
+    def __init__(self, *args, fill=Colors.gray, border=Colors.darkerGray, borderWidth: int|float = 2, parent=None, debug: bool = False, **kwargs):
         super().__init__(*args, **kwargs, fill=fill, border=border, borderWidth=borderWidth)
         self.parent = parent
         if self.parent:
