@@ -546,6 +546,7 @@ class Menu(Rect):
 
         self.data = {
             "Class": f"{self.__class__.__name__}",
+            "Parent": f"{self.parent}",
             "Debug": self.debug,
             "Dimensions": {
                 "TopLeft": (self.left, self.top),
@@ -567,6 +568,7 @@ class Menu(Rect):
     def __updateData(self) -> None:
         self.data = {
             "Class": f"{self.__class__.__name__}",
+            "Parent": f"{self.parent}",
             "Debug": self.debug,
             "Dimensions": {
                 "TopLeft": (self.left, self.top),
