@@ -758,6 +758,7 @@ class Menu(Rect):
             return self.data
         
         def addEventListener(self, x, y, onclick = None, event: str = "mouseDown") -> None:
+            self.onclick = onclick
             self.hasEventListner = True
 
             if callable(onclick) == False:
