@@ -493,8 +493,16 @@ class Functions:
                     endText.clear()
 
 class Menu(Rect):
-    def __init__(self, *args, fill=Colors.gray, border=Colors.darkerGray, borderWidth: int|float = 2,debug: bool = False, **kwargs):
+    def __init__(self, *args, fill=Colors.gray, border=Colors.darkerGray, borderWidth: int|float = 2,debug: bool = False, psrent=None, **kwargs):
         super().__init__(*args, **kwargs, fill=fill, border=border, borderWidth=borderWidth)
+        self.parent = parent
+        if self.parent:
+            if type(self.parent) != Menu:
+                raise TypeError(f"type of self.parent must be Menu, not {type(self.parent)}")
+            else:
+                self.centerX = (parent.centerX - self.width/2) + self.centerX
+                self.centerY = parent.top + self.centerY
+        
         self.debug = debug
         if self.debug == True:
             self.widthFormula = 20*(self.width/self.height)
