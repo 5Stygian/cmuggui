@@ -602,8 +602,8 @@ class Menu(Rect):
             self.hasEventListener = False
 
             # align with parent Menu
-            self.centerX = (parent.centerX - self.width/2) + self.centerX
-            self.centerY = parent.top + self.centerY
+            self.centerX = (self.parent.centerX - self.width/2) + self.centerX
+            self.centerY = self.parent.top + self.centerY
             
             self.textValue = textValue
             self.textFill  = textFill
@@ -773,8 +773,8 @@ class Menu(Rect):
             super().__init__(*args, **kwargs)
             self.parent = parent
             
-            self.centerX = parent.centerX + self.centerX
-            self.centerY = parent.top + self.centerY
+            self.centerX = self.parent.centerX + self.centerX
+            self.centerY = self.parent.top + self.centerY
 
             self.data = {
                 "Class": f"{self.__class__.__name__}",
