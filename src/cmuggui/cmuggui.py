@@ -493,6 +493,10 @@ class Functions:
                     endText.clear()
 
 class Menu(Rect):
+    MENUS   = []
+    BUTTONS = []
+    TITLES  = []
+    
     def __init__(self, *args, fill=Colors.gray, border=Colors.darkerGray, borderWidth: int|float = 2, parent=None, debug: bool = False, **kwargs):
         super().__init__(*args, **kwargs, fill=fill, border=border, borderWidth=borderWidth)
         self.parent = parent
@@ -585,6 +589,8 @@ class Menu(Rect):
             "IsVisible": self.visible
         }
 
+        Menu.MENUS.append(self.data)
+    
     def getData(self) -> Dict:
         return self.data
     
@@ -709,6 +715,9 @@ class Menu(Rect):
                     "IsVisible": self.text.visible
                 }
             }
+
+            Menu.BUTTONS.append(self.data)
+    
         
         def __updateData(self) -> None:
             self.data = {
@@ -799,6 +808,8 @@ class Menu(Rect):
                 "IsVisible": self.visible
             }
 
+            Menu.TITLES.append(self.data)
+    
         def __updateData(self):
             self.data = {
                 "Class": f"{self.__class__.__name__}",
