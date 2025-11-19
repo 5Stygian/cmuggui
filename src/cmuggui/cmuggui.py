@@ -505,7 +505,7 @@ class Menu(Rect):
                 raise TypeError(f"type of self.parent must be Menu, not {type(self.parent)}")
             else:
                 self.centerX = (parent.centerX - self.width/2) + self.centerX
-                self.centerY = parent.top + self.centerY
+                self.top = parent.top + self.centerY
         
         self.debug = debug
         if self.debug == True:
@@ -609,7 +609,7 @@ class Menu(Rect):
 
             # align with parent Menu
             self.centerX = (self.parent.centerX - self.width/2) + self.centerX
-            self.centerY = self.parent.top + self.centerY
+            self.top = self.parent.top + self.centerY
             
             self.textValue = textValue
             self.textFill  = textFill
@@ -783,7 +783,7 @@ class Menu(Rect):
             self.parent = parent
             
             self.centerX = self.parent.centerX + self.centerX
-            self.centerY = self.parent.top + self.centerY
+            self.top = self.parent.top + self.centerY
 
             self.data = {
                 "Class": f"{self.__class__.__name__}",
@@ -836,7 +836,20 @@ class Menu(Rect):
 
         def getData(self):
             return self.data
-    
+
+    class VerticalTitle(Menu.Title):
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            
+            self.valueList = list(self.value)
+            
+            self.chars = Group()
+            
+            for _ in range(len(self.valueList)):
+                self.chars.add(
+                    
+                )
+
 # tests
 if __name__ == "__main__":
     testMenu = Menu(
