@@ -841,13 +841,18 @@ class Menu(Rect):
         def __init__(self, *args, **kwargs):
             super().__init__(*args, **kwargs)
             
-            self.valueList = list(self.value)
+            raise NotImplementedError("This class is unfinished")
             
+            self.valueList = list(self.value)
             self.chars = Group()
             
             for _ in range(len(self.valueList)):
                 self.chars.add(
-                    
+                    Menu.Title(
+                        self.parent,
+                        self.valueList[_],
+                        # TODO: add alignment logic
+                    )
                 )
 
 # tests
