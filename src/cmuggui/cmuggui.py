@@ -837,23 +837,50 @@ class Menu(Rect):
         def getData(self):
             return self.data
 
-    class VerticalTitle(Menu.Title):
-        def __init__(self, *args, **kwargs):
-            super().__init__(*args, **kwargs)
-            
-            raise NotImplementedError("This class is unfinished")
-            
-            self.valueList = list(self.value)
-            self.chars = Group()
-            
-            for _ in range(len(self.valueList)):
-                self.chars.add(
-                    Menu.Title(
-                        self.parent,
-                        self.valueList[_],
-                        # TODO: add alignment logic
-                    )
-                )
+class VerticalTitle(Menu.Title):
+    def __init__(self, *args, spacing=0, **kwargs):
+        super().__init__(*args, **kwargs)
+        
+        self.spacing = self.size + spacing
+        
+        self.__valueList = list(self.value)
+        self.chars = Group()
+        
+        for _ in range(len(self.__valueList)):
+            self.chars.add(
+                Menu.Title(
+                    self.parent,
+                    self.__valueList[_],
+                    0, self.centerY+self.spacing*_,
+                    fill=self.fill,
+                    size=self.size,
+                    font=self.font,
+                    bold=self.bold,
+                    italic=self.italic,
+                    opacity=self.opacity,
+                    visible=self.visible
+                )   
+            )
+        
+        self.chars.centerX = self.centerX
+        
+        self.visible = False
+        
+        self.data = {
+            "Class": f"{self.__class__.__name__}",
+            "Parent": f"{self.parent}",
+            "Position": (self.chars.centerX, self.chars.centerY),
+            "Color": f"{self.fill}",
+            "Font": self.font,
+            "Size": self.size,
+            "IsBold": self.bold,
+            "IsItalic": self.italic,
+            "Opacity": self.opacity,
+            "IsVisible": self.visible
+        }
+    
+    def getData(self) -> Dict:
+        return self.data
 
 # tests
 if __name__ == "__main__":
