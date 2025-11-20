@@ -837,6 +837,17 @@ class Menu(Rect):
         def getData(self):
             return self.data
 
+class Topbar(Menu):
+    def __init__(self, *args, borderBottomWidth=3, fill=None, **kwargs):
+        super().__init__(*args, fill=fill, **kwargs)
+        
+        self.borderBottomWidth = borderBottomWidth
+        self.borderBottom = Line(
+            self.left, self.bottom,
+            self.right, self.bottom,
+            lineWidth=self.borderBottomWidth
+        )
+
 class VerticalTitle(Menu.Title):
     def __init__(self, *args, spacing=0, **kwargs):
         super().__init__(*args, **kwargs)
