@@ -870,6 +870,7 @@ class VerticalTitle(Menu.Title):
             "Class": f"{self.__class__.__name__}",
             "Parent": f"{self.parent}",
             "Position": (self.chars.centerX, self.chars.centerY),
+            "Value": self.value,
             "Color": f"{self.fill}",
             "Font": self.font,
             "Size": self.size,
