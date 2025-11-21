@@ -506,6 +506,9 @@ class Menu(Rect):
             else:
                 self.centerX = (parent.centerX - self.width/2) + self.centerX
                 self.top = parent.top + self.centerY
+
+        self.buttons = []
+        self.buttonsData = []
         
         self.debug = debug
         if self.debug == True:
@@ -564,11 +567,12 @@ class Menu(Rect):
             "BackgroundFill": self.fill,
             "BorderFill": self.border,
             "BorderWidth": self.borderWidth,
-            "IsVisible": self.visible
+            "IsVisible": self.visible,
+            "Buttons": self.buttonsData
         }
         
         self.toBack()
-
+    
     def __updateData(self) -> None:
         self.data = {
             "Class": f"{self.__class__.__name__}",
@@ -586,25 +590,34 @@ class Menu(Rect):
             "BackgroundFill": self.fill,
             "BorderFill": self.border,
             "BorderWidth": self.borderWidth,
-            "IsVisible": self.visible
+            "IsVisible": self.visible,
+            "Buttons": self.buttonsData
         }
 
         Menu.MENUS.append(self.data)
     
     def getData(self) -> Dict:
         return self.data
+
+    def addEventListener(self, x, y) -> None:
+        for button in self.buttons:
+            if button.contains(x, y) and button.onclick is not None:
+                button.onclick()
     
     class Button(Rect):
         def __init__(self, parent, *args, 
                      textValue: str = "", textFill = rgb(0,0,0), textSize: int|float = 12.0, textFont: str = "arial", textOpacity: int|float = 100,
                      textIsBold: bool = False, textIsItalic: bool = False, textIsVisible: bool = True,
-                     debug: bool = False, **kwargs):
+                     onclick = None, debug: bool = False, **kwargs):
             super().__init__(*args, **kwargs)
             self.parent  = parent
             if type(self.parent) != Menu:
                 raise TypeError(f"type of self.parent must be Menu, not {type(self.parent)}")
             
-            self.onclick = Functions.NOFUNCTION
+            self.onclick = onclick
+            if callable(self.onclick) == False and self.onclick is not None:
+                raise TypeError(f"onclick should be the name of a function, not {self.onclick.__class__.__name__}")
+            
             self.hasEventListener = False
 
             # align with parent Menu
@@ -716,8 +729,9 @@ class Menu(Rect):
                 }
             }
 
+            self.parent.buttons.append(self)
+            self.parent.buttonsData.append(self.data)
             Menu.BUTTONS.append(self.data)
-    
         
         def __updateData(self) -> None:
             self.data = {
