@@ -776,13 +776,10 @@ class Menu(Rect):
         def getData(self) -> Dict:
             return self.data
         
-        def addEventListener(self, x, y, onclick = None, event: str = "mouseDown") -> None:
-            if callable(onclick) == False:
-                raise TypeError(f"onclick must be of type function, not {onclick.__class__.__name__}")
-            
+        def addEventListener(self, x, y, event: str = "mouseDown") -> None:
             if self.contains(x, y):
                 if event == "mouseDown":
-                    onclick()
+                    self.onclick()
 
     class Title(Label):
         def __init__(self, parent, *args, **kwargs):
@@ -919,6 +916,7 @@ if __name__ == "__main__":
         testMenu,
         0, 12,
         50, 30,
+        onclick=testFoo,
         fill=rgb(175,175,175),
         border=rgb(120,120,120),
         borderWidth=1,
@@ -934,6 +932,7 @@ if __name__ == "__main__":
         testMenu,
         0, 50,
         70, 40,
+        onclick=testFoo2,
         fill=gradient("yellow", "white", start="right"),
         border=gradient("blue", "green", "red", start="left"),
         borderWidth=4,
@@ -949,6 +948,7 @@ if __name__ == "__main__":
         testMenu,
         0, 365,
         40, 20,
+        onclick=Functions.QQUIT,
         fill=Colors.CSS3.slategray,
         textValue="QUIT"
     )
@@ -960,9 +960,9 @@ if __name__ == "__main__":
     )
 
     def onMousePress(x, y):
-        testButton.addEventListener(x, y, onclick=testFoo)
-        testButton2.addEventListener(x, y, onclick=testFoo2)
-        exitButton.addEventListener(x, y, onclick=Functions.QQUIT)
+        testButton.addEventListener(x, y)
+        testButton2.addEventListener(x, y)
+        exitButton.addEventListener(x, y)
 
     def onMouseMove(x, y):
         if testButton2.contains(x, y):
