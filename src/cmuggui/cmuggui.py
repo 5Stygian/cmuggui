@@ -618,8 +618,6 @@ class Menu(Rect):
             if callable(self.onclick) == False and self.onclick is not None:
                 raise TypeError(f"onclick should be the name of a function, not {self.onclick.__class__.__name__}")
             
-            self.hasEventListener = False
-
             # align with parent Menu
             self.centerX = (self.parent.centerX - self.width/2) + self.centerX
             self.top = self.parent.top + self.centerY
@@ -691,7 +689,6 @@ class Menu(Rect):
                 "Parent": f"{self.parent}",
                 "Debug": self.debug,
                 "OnClickFunction": f"{self.onclick}",
-                "HasEventListener": self.hasEventListener,
                 "BoundingBox": {
                     "Dimensions": {
                         "TopLeft": (self.left, self.top),
@@ -739,7 +736,6 @@ class Menu(Rect):
                 "Parent": f"{self.parent}",
                 "Debug": self.debug,
                 "OnClickFunction": f"{self.onclick}",
-                "HasEventListener": self.hasEventListener,
                 "BoundingBox": {
                     "Dimensions": {
                         "TopLeft": (self.left, self.top),
@@ -781,9 +777,6 @@ class Menu(Rect):
             return self.data
         
         def addEventListener(self, x, y, onclick = None, event: str = "mouseDown") -> None:
-            self.onclick = onclick
-            self.hasEventListner = True
-
             if callable(onclick) == False:
                 raise TypeError(f"onclick must be of type function, not {onclick.__class__.__name__}")
             
