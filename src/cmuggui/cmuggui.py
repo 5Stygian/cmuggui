@@ -599,7 +599,7 @@ class Menu(Rect):
     def getData(self) -> Dict:
         return self.data
 
-    def addEventListener(self, x, y) -> None:
+    def addEventListener(self, x: int|float, y: int|float) -> None:
         for button in self.buttons:
             if button.contains(x, y) and button.onclick is not None:
                 button.onclick()
