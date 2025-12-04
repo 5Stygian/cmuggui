@@ -960,9 +960,7 @@ if __name__ == "__main__":
     )
 
     def onMousePress(x, y):
-        testButton.addEventListener(x, y)
-        testButton2.addEventListener(x, y)
-        exitButton.addEventListener(x, y)
+        testMenu.addEventListener(x, y)
 
     def onMouseMove(x, y):
         if testButton2.contains(x, y):
